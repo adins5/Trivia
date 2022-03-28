@@ -144,6 +144,11 @@
     <ClInclude Include="LoginRequestHandler.h" />
     <ClInclude Include="Server.h" />
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Communicator.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Server.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
