@@ -9,9 +9,10 @@ class Communicator {
 	SOCKET m_serverSocket;
 	std::map<SOCKET, IRequestHandler*> m_clients;
 	int bindAndListen();
-	void handleNewClient();
+	void handleNewClient(SOCKET soc);
 
 public:
 	Communicator();
 	void startHandleRequests();
+
 };

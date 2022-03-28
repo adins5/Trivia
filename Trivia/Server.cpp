@@ -3,7 +3,7 @@
 
 void Server::run()
 {
-	std::thread T(&Communicator::startHandleRequests, m_communicator);
+	std::thread T(&Communicator::startHandleRequests, &m_communicator);
 	T.detach();
 
 	std::string userInput = "";

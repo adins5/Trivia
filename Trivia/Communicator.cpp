@@ -22,30 +22,30 @@ int Communicator::bindAndListen()
 	while (true)
 	{
 		std::cout << "Waiting for client connection request" << std::endl;
-		handleNewClient();
+		SOCKET client_socket = accept(m_serverSocket, NULL, NULL);
+		if (client_socket == INVALID_SOCKET)
+			throw std::exception(__FUNCTION__);
+
+		std::cout << "Client accepted. Server and client can speak" << std::endl;
+		// the function that handle the conversation with the client
+		std::thread T(&Communicator::handleNewClient, this, client_socket); //what function?
+		T.detach();
 	}
 }
 
-void Communicator::handleNewClient()
+void Communicator::handleNewClient(SOCKET soc)
 {
-	SOCKET client_socket = accept(m_serverSocket, NULL, NULL);
-	if (client_socket == INVALID_SOCKET)
-		throw std::exception(__FUNCTION__);
-
-	std::cout << "Client accepted. Server and client can speak" << std::endl;
-	// the function that handle the conversation with the client
-	std::thread T(client_socket); //what function?
-	T.detach();
 	LoginRequestHandler* req = new LoginRequestHandler();
-    m_clients.insert(std::pair<SOCKET, IRequestHandler*>(client_socket, req));
+    m_clients.insert(std::pair<SOCKET, IRequestHandler*>(soc, req));
 }
 
 Communicator::Communicator()
 {
+
 }
 
 void Communicator::startHandleRequests()
 {
-    m_serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	m_serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	bindAndListen();
 }
