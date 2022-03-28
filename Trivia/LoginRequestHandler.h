@@ -6,5 +6,5 @@ class LoginRequestHandler : public IRequestHandler {
 	
 public:
 	LoginRequestHandler();
-	virtual ~LoginRequestHandler();
+	~LoginRequestHandler();
 };

@@ -41,7 +41,7 @@ void Communicator::handleNewClient(SOCKET soc)
 
 Communicator::Communicator()
 {
-	m_serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	m_serverSocket = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
 	if (m_serverSocket == INVALID_SOCKET)
 		throw std::exception(__FUNCTION__ " - socket");

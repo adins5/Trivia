@@ -1,12 +1,17 @@
 #pragma once
+#pragma comment(lib, "Ws2_32.lib")
 
-#include <WinSock2.h>
+#include "LoginRequestHandler.h"
 #include <iostream>
 #include  <map>
+#include <exception>
+#include <WinSock2.h>
+#include <string>
 #include <thread>
-#include "LoginRequestHandler.h"
+
 
 class Communicator {
+private:
 	SOCKET m_serverSocket;
 	std::map<SOCKET, IRequestHandler*> m_clients;
 	int bindAndListen();
