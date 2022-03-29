@@ -22,7 +22,7 @@ int Communicator::bindAndListen()
 
 	while (true)
 	{
-		//std::cout << "Waiting for client connection request" << std::endl;
+		std::cout << "Waiting for client connection request" << std::endl;
 		SOCKET client_socket = accept(m_serverSocket, NULL, NULL);
 		if (client_socket == INVALID_SOCKET)
 			throw std::exception(__FUNCTION__);
