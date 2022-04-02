@@ -11,7 +11,7 @@ void Server::run()
 	T.detach();
 
 	std::string userInput = "";
-	while (userInput != "EXIT" || userInput != "exit")
+	while (userInput != "EXIT" && userInput != "exit")
 	{
 		std::getline(std::cin, userInput);
 	}
