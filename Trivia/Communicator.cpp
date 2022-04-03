@@ -39,25 +39,28 @@ void Communicator::handleNewClient(SOCKET soc)
 	LoginRequestHandler* req = new LoginRequestHandler();
     m_clients.insert(std::pair<SOCKET, IRequestHandler*>(soc, req));
 
-	std::string message = "hello";
+
+	RequestInfo msgInfo = msgHelper.recvMsg(soc);
+	
+
+	RequestResult result;
+	result.buffer;
+
+
+	/*std::string message = "hello";
 	const char* data = message.c_str();
 	if (send(soc, data, message.size(), 0) == INVALID_SOCKET)
 	{
 		throw std::exception("Error while sending message to client");
-	}
+	}*/
 
-	char buff[BUFFLEN] = "3";
-	if (recv(soc, buff, BUFFLEN, 0) == INVALID_SOCKET)
-	{
-		throw std::exception("Error while sending message to client");
-	}
-	std::cout << buff << std::endl;
+	
 }
 
 Communicator::Communicator()
 {
 	m_serverSocket = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-
+	msgHelper = MessageHandler();
 	if (m_serverSocket == INVALID_SOCKET)
 		throw std::exception(__FUNCTION__ " - socket");
 }

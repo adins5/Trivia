@@ -8,7 +8,22 @@
 #include <WinSock2.h>
 #include <string>
 #include <thread>
+#include <time.h>
+#include <vector>
+#include "MessageHandler.h"
 
+struct RequestInfo {
+	int id;
+	time_t ctime;
+	std::vector<unsigned char> buffer;
+} typedef RequestInfo;
+
+
+struct RequestResult {
+	std::vector<unsigned char> buffer;
+	IRequestHandler* newHandler;
+
+}typedef RequestResult;
 
 class Communicator {
 private:
@@ -16,9 +31,11 @@ private:
 	std::map<SOCKET, IRequestHandler*> m_clients;
 	int bindAndListen();
 	void handleNewClient(SOCKET soc);
+	MessageHandler msgHelper;
 
 public:
 	Communicator();
 	void startHandleRequests();
 
 };
+
