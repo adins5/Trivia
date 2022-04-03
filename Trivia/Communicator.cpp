@@ -42,18 +42,18 @@ void Communicator::handleNewClient(SOCKET soc)
 
 	RequestInfo msgInfo = msgHelper.recvMsg(soc);
 	
+	switch (msgInfo.id)
+	{
+	case LOGIN: {
+		LoginRequest req = JsonRequestPacketDeserializer::deserializeLoginRequest(msgInfo.buffer);
+		break; }
+	case SING: {
+		SignupRequest req = JsonRequestPacketDeserializer::deserializeSignupRequest(msgInfo.buffer);
+		break; }
+	}
 
 	RequestResult result;
 	result.buffer;
-
-
-	/*std::string message = "hello";
-	const char* data = message.c_str();
-	if (send(soc, data, message.size(), 0) == INVALID_SOCKET)
-	{
-		throw std::exception("Error while sending message to client");
-	}*/
-
 	
 }
 

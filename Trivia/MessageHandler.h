@@ -4,7 +4,7 @@
 class MessageHandler {
 public:
 	MessageHandler();
-	void sendMsg(std::string, SOCKET clientSoc);
+	void sendMsg(std::string msg, SOCKET clientSoc);
 	RequestInfo& recvMsg(SOCKET clientSoc);
 
 

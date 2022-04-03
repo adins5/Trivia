@@ -6,6 +6,15 @@ MessageHandler::MessageHandler()
 {
 }
 
+void MessageHandler::sendMsg(std::string msg, SOCKET clientSoc)
+{
+	const char* data = msg.c_str();
+	if (send(clientSoc, data, msg.size(), 0) == INVALID_SOCKET)
+	{
+		throw std::exception("Error while sending message to client");
+	}
+}
+
 RequestInfo& MessageHandler::recvMsg(SOCKET clientSoc)
 {
 	RequestInfo msg;

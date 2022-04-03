@@ -3,11 +3,6 @@
 #include <sstream>
 #include <iomanip>
 
-#define ERR 0
-#define LOGIN 1
-#define SIGN 2
-#define LOGOUT 3
-
 
 #define MSG_LEN_SIZE 4
 

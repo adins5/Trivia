@@ -16,7 +16,7 @@ struct SignupRequest {
 
 class JsonRequestPacketDeserializer {
 public:
-	LoginRequest deserializeLoginRequest(std::vector<unsigned char> buffer);
-	SignupRequest deserializeSignupRequest(std::vector<unsigned char> buffer);
+	static LoginRequest& deserializeLoginRequest(std::vector<unsigned char> buffer);
+	static SignupRequest& deserializeSignupRequest(std::vector<unsigned char> buffer);
 
 };

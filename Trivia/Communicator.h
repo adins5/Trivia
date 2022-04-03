@@ -3,7 +3,7 @@
 
 #include "LoginRequestHandler.h"
 #include <iostream>
-#include  <map>
+#include <map>
 #include <exception>
 #include <WinSock2.h>
 #include <string>
@@ -11,6 +11,14 @@
 #include <time.h>
 #include <vector>
 #include "MessageHandler.h"
+#include "Request.h"
+#include "Response.h"
+
+#define ERR 0
+#define LOGIN 1
+#define SIGN 2
+#define LOGOUT 3
+
 
 struct RequestInfo {
 	int id;
