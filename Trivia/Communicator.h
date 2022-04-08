@@ -19,6 +19,7 @@
 #define SIGN 2
 #define LOGOUT 3
 
+class IRequestHandler;
 
 struct RequestInfo {
 	int id;

@@ -47,9 +47,11 @@ void Communicator::handleNewClient(SOCKET soc)
 	case LOGIN: {
 		LoginRequest req = JsonRequestPacketDeserializer::deserializeLoginRequest(msgInfo.buffer);
 		break; }
+
 	case SING: {
 		SignupRequest req = JsonRequestPacketDeserializer::deserializeSignupRequest(msgInfo.buffer);
 		break; }
+
 	}
 
 	RequestResult result;
