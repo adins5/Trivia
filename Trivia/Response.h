@@ -1,10 +1,13 @@
 #pragma once
 
-#include "Communicator.h"
 #include <vector>
 #include "json.hpp"
-
 using json = nlohmann::json;
+
+#define ERR 0
+#define LOGIN 1
+#define SIGN 2
+#define LOGOUT 3
 
 struct ErrorResponse {
 	std::string message;

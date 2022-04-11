@@ -36,8 +36,8 @@ int Communicator::bindAndListen()
 
 void Communicator::handleNewClient(SOCKET soc)
 {
-	LoginRequestHandler* req = new LoginRequestHandler();
-    m_clients.insert(std::pair<SOCKET, IRequestHandler*>(soc, req));
+	/*LoginRequestHandler* req = new LoginRequestHandler();
+    m_clients.insert(std::pair<SOCKET, IRequestHandler*>(soc, req));*/
 
 
 	RequestInfo msgInfo = msgHelper.recvMsg(soc);

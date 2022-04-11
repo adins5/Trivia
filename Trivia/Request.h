@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Communicator.h"
 #include <vector>
+#include <iostream>
 
 struct LoginRequest {
 	std::string username;
@@ -12,7 +12,7 @@ struct SignupRequest {
 	std::string username;
 	std::string password;
 	std::string email;
-} typedef LoginRequest;
+} typedef SignupRequest;
 
 class JsonRequestPacketDeserializer {
 public:

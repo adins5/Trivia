@@ -1,5 +1,8 @@
 #pragma once
+
 #include "Communicator.h"
+
+class Communicator;
 
 class MessageHandler {
 public:
@@ -9,7 +12,6 @@ public:
 
 
 private:
-
 	SOCKET _clientSoc;
 
 };

@@ -1,5 +1,5 @@
 #include "LoginRequestHandler.h"
-
+/*
 LoginRequestHandler::LoginRequestHandler()
 {
 }
@@ -30,3 +30,4 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo info)
 LoginRequestHandler::~LoginRequestHandler()
 {
 }
+*/
