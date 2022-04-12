@@ -10,6 +10,7 @@
 #include <thread>
 #include <time.h>
 #include <vector>
+#include "MessageHandler.h"
 #include "Request.h"
 #include "Response.h"
 

@@ -5,6 +5,6 @@ class Communicator;
 
 class IRequestHandler {
 public:
-	//virtual bool isRequestRelevant(RequestInfo info) = 0;
-	//virtual RequestResult handleRequest(RequestInfo info) = 0;
+	virtual bool isRequestRelevant(struct RequestInfo info) = 0;
+	virtual struct RequestResult* handleRequest(struct RequestInfo info) = 0;
 };

@@ -1,5 +1,5 @@
 #include "LoginRequestHandler.h"
-/*
+
 LoginRequestHandler::LoginRequestHandler()
 {
 }
@@ -9,10 +9,10 @@ bool LoginRequestHandler::isRequestRelevant(RequestInfo info)
     return false;
 }
 
-RequestResult LoginRequestHandler::handleRequest(RequestInfo info)
+RequestResult* LoginRequestHandler::handleRequest(RequestInfo info)
 {
-    RequestResult req;
-    req.buffer = info.buffer;
+    RequestResult* req = new RequestResult;
+    req->buffer = info.buffer;
 
     if (info.id == LOGIN)
     {
@@ -30,4 +30,3 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo info)
 LoginRequestHandler::~LoginRequestHandler()
 {
 }
-*/

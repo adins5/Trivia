@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Communicator.h"
+#include <string>
+#include <WinSock2.h>
 
 class Communicator;
 

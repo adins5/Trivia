@@ -1,6 +1,4 @@
 #include "Communicator.h"
-#include "MessageHandler.h"
-
 #define PORT 2022
 #define BUFFLEN 265
 

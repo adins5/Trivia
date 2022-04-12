@@ -1,4 +1,5 @@
 #include "MessageHandler.h"
+#include "Communicator.h"
 #include <string>
 #define BUFFLEN 265
 
