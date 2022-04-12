@@ -1,4 +1,6 @@
 #include "Communicator.h"
+#include "MessageHandler.h"
+
 #define PORT 2022
 #define BUFFLEN 265
 
@@ -40,16 +42,16 @@ void Communicator::handleNewClient(SOCKET soc)
     m_clients.insert(std::pair<SOCKET, IRequestHandler*>(soc, req));*/
 
 
-	RequestInfo msgInfo = msgHelper.recvMsg(soc);
+	RequestInfo* msgInfo = m_msgHelper.recvMsg(soc);
 	
-	switch (msgInfo.id)
+	switch (msgInfo->id)
 	{
 	case LOGIN: {
-		LoginRequest req = JsonRequestPacketDeserializer::deserializeLoginRequest(msgInfo.buffer);
+		LoginRequest req = JsonRequestPacketDeserializer::deserializeLoginRequest(msgInfo->buffer);
 		break; }
 
 	case SING: {
-		SignupRequest req = JsonRequestPacketDeserializer::deserializeSignupRequest(msgInfo.buffer);
+		SignupRequest req = JsonRequestPacketDeserializer::deserializeSignupRequest(msgInfo->buffer);
 		break; }
 
 	}
@@ -62,7 +64,7 @@ void Communicator::handleNewClient(SOCKET soc)
 Communicator::Communicator()
 {
 	m_serverSocket = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	msgHelper = MessageHandler();
+	//m_msgHelper = MessageHandler();
 	if (m_serverSocket == INVALID_SOCKET)
 		throw std::exception(__FUNCTION__ " - socket");
 }

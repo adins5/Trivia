@@ -6,12 +6,8 @@ class Communicator;
 
 class MessageHandler {
 public:
-	MessageHandler();
+	MessageHandler() = default;
 	void sendMsg(std::string msg, SOCKET clientSoc);
-	RequestInfo& recvMsg(SOCKET clientSoc);
-
-
-private:
-	SOCKET _clientSoc;
+	struct RequestInfo* recvMsg(SOCKET clientSoc);
 
 };

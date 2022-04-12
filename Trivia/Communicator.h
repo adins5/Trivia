@@ -10,7 +10,6 @@
 #include <thread>
 #include <time.h>
 #include <vector>
-#include "MessageHandler.h"
 #include "Request.h"
 #include "Response.h"
 
@@ -20,13 +19,11 @@ class MessageHandler;
 class JsonResponsePacketSerializer;
 class JsonRequestPacketDeserializer; 
 
-
 struct RequestInfo {
 	int id;
 	time_t ctime;
 	std::vector<unsigned char> buffer;
 } typedef RequestInfo;
-
 
 struct RequestResult {
 	std::vector<unsigned char> buffer;
@@ -34,17 +31,17 @@ struct RequestResult {
 
 }typedef RequestResult;
 
+
 class Communicator {
 private:
 	SOCKET m_serverSocket;
 	std::map<SOCKET, IRequestHandler*> m_clients;
 	int bindAndListen();
 	void handleNewClient(SOCKET soc);
-	MessageHandler msgHelper;
+	MessageHandler m_msgHelper;
 
 public:
 	Communicator();
 	void startHandleRequests();
-
 };
 
