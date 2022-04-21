@@ -12,7 +12,7 @@ public:
 
 	virtual bool doesUserExists(std::string userName) override;
 	virtual bool isCorrectPassword(std::string userName, std::string password) override;
-	virtual bool addNewUser(std::string userName, std::string password, std::string email) override;
+	virtual bool addNewUser(User& user) override;
 
 	virtual bool open() override;
 	virtual void close() override;
