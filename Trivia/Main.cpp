@@ -5,17 +5,19 @@
 #include "WSAInitializer.h"
 #include "SqliteDataBase.h"
 #include "user.h"
+#include "LoggedUser.h"
+
 
 int main()
 {
 	SqliteDataBase x;
+	LoggedUser logList;
 	User user("liad", "123456", "123");
 	x.open();
 	x.addNewUser(user);
-	x.doesUserExists("liad");
-	x.doesUserExists("h");
-	x.isCorrectPassword("liad", "123456");
-	x.isCorrectPassword("liad", "12");
+	logList.login("lid", "123456", x);
+	logList.logout("lia");
+	logList.signup("roi", "qwerty", "gmail", x);
 	x.close();
 
 	WSAInitializer wsaInit;
