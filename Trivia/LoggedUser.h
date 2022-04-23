@@ -1,20 +1,15 @@
 #pragma once
-#include <vector>
-
-#include "SqliteDataBase.h"
-#include "user.h"
+#include <string>
 
 class LoggedUser
 {
 public:
-	LoggedUser() {}
-	~LoggedUser() { m_loggedUsers.erase(m_loggedUsers.begin(), m_loggedUsers.end()); }
+	LoggedUser(std::string username) : m_username(username) {}
+	~LoggedUser() {}
 
-	bool login(std::string username, std::string password, SqliteDataBase& data);
-	bool signup(std::string username, std::string password, std::string email, SqliteDataBase& data);
-	bool logout(std::string username);
+	inline std::string getUsername() { return m_username; }
 
 private:
-	std::vector<std::string> m_loggedUsers;
+	std::string m_username;
 };
 

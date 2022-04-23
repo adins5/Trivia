@@ -11,8 +11,8 @@ public:
 	~SqliteDataBase() { if (m_db) close(); }
 
 	virtual bool doesUserExists(std::string userName) override;
-	virtual bool isCorrectPassword(std::string userName, std::string password) override;
-	virtual bool addNewUser(User& user) override;
+	virtual bool doesPasswordMatch(std::string userName, std::string password) override;
+	virtual bool addNewUser(std::string username, std::string password, std::string email) override;
 
 	virtual bool open() override;
 	virtual void close() override;

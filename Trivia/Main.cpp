@@ -4,20 +4,19 @@
 #include "LoginRequestHandler.h"
 #include "WSAInitializer.h"
 #include "SqliteDataBase.h"
-#include "user.h"
-#include "LoggedUser.h"
+#include "LoginManager.h"
 
 
 int main()
 {
 	SqliteDataBase x;
-	LoggedUser logList;
-	User user("liad", "123456", "123");
+	LoginManager logList(&x);
+
 	x.open();
-	x.addNewUser(user);
-	logList.login("lid", "123456", x);
+	x.addNewUser("liad", "123456", "123");
+	logList.login("lid", "123456");
 	logList.logout("lia");
-	logList.signup("roi", "qwerty", "gmail", x);
+	logList.signup("roi", "qwerty", "gmail");
 	x.close();
 
 	WSAInitializer wsaInit;

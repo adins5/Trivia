@@ -46,7 +46,7 @@ bool SqliteDataBase::doesUserExists(std::string userName)
 }
 
 
-bool SqliteDataBase::isCorrectPassword(std::string userName, std::string password)
+bool SqliteDataBase::doesPasswordMatch(std::string userName, std::string password)
 {
 	bool ret = false;
 
@@ -76,14 +76,14 @@ bool SqliteDataBase::isCorrectPassword(std::string userName, std::string passwor
 }
 
 
-bool SqliteDataBase::addNewUser(User& user)
+bool SqliteDataBase::addNewUser(std::string username, std::string password, std::string email)
 {
 	if (!isDB())
 		return false;
 
 	std::stringstream sql;
 	char* errMessage = nullptr;
-	sql << "INSERT INTO USERS (USERNAME, PASSWORD, EMAIL) VALUES ('" << user.getUsername() << "', '" << user.getPassword() << "', '" << user.getEmail() << "')";
+	sql << "INSERT INTO USERS (USERNAME, PASSWORD, EMAIL) VALUES ('" << username << "', '" << password << "', '" << email << "')";
 
 	int res = sqlite3_exec(m_db, sql.str().c_str(), nullptr, nullptr, &errMessage);
 	if (res != SQLITE_OK)
