@@ -29,7 +29,7 @@ int Communicator::bindAndListen()
 
 		std::cout << "Client accepted. Server and client can speak" << std::endl;
 		// the function that handle the conversation with the client
-		std::thread T(&Communicator::handleNewClient, this, client_socket); //what function?
+		std::thread T(&Communicator::handleNewClient, this, client_socket); 
 		T.detach();
 	}
 }
@@ -39,25 +39,30 @@ void Communicator::handleNewClient(SOCKET soc)
 	LoginRequestHandler* req = new LoginRequestHandler();
     m_clients.insert(std::pair<SOCKET, IRequestHandler*>(soc, req));
 
-	std::string message = "hello";
-	const char* data = message.c_str();
-	if (send(soc, data, message.size(), 0) == INVALID_SOCKET)
-	{
-		throw std::exception("Error while sending message to client");
-	}
 
-	char buff[BUFFLEN] = "3";
-	if (recv(soc, buff, BUFFLEN, 0) == INVALID_SOCKET)
+	RequestInfo* msgInfo = m_msgHelper.recvMsg(soc);
+	
+	if (m_clients[soc]->isRequestRelevant(*msgInfo))
 	{
-		throw std::exception("Error while sending message to client");
+		switch (msgInfo->id)
+		{
+		case LOGIN: {
+			LoginRequest req = JsonRequestPacketDeserializer::deserializeLoginRequest(msgInfo->buffer);
+			break; }
+
+		case SING: {
+			SignupRequest req = JsonRequestPacketDeserializer::deserializeSignupRequest(msgInfo->buffer);
+			break; }
+
+		}
 	}
-	std::cout << buff << std::endl;
+	RequestResult result;
+	result.buffer;
 }
 
 Communicator::Communicator()
 {
 	m_serverSocket = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-
 	if (m_serverSocket == INVALID_SOCKET)
 		throw std::exception(__FUNCTION__ " - socket");
 }
