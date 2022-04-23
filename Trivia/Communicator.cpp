@@ -1,4 +1,8 @@
 #include "Communicator.h"
+#include <mutex>          
+
+std::mutex mtx;
+
 #define PORT 2022
 #define BUFFLEN 265
 
@@ -36,31 +40,32 @@ int Communicator::bindAndListen()
 
 void Communicator::handleNewClient(SOCKET soc)
 {
-	LoginRequestHandler* req = new LoginRequestHandler();
-    m_clients.insert(std::pair<SOCKET, IRequestHandler*>(soc, req));
-
-
-	RequestInfo* msgInfo = m_msgHelper.recvMsg(soc);
+	RequestResult* result = nullptr;
 	
-	if (m_clients[soc]->isRequestRelevant(*msgInfo))
+	mtx.lock();
+    m_clients[soc] =  (IRequestHandler*)m_handlerFactory.createLoginRequestHandler();
+	mtx.unlock();
+
+	while (true)
 	{
-		switch (msgInfo->id)
+		RequestInfo* msgInfo = m_msgHelper.recvMsg(soc);
+
+		if (!m_clients[soc]->isRequestRelevant(*msgInfo))
 		{
-		case LOGIN: {
-			LoginRequest req = JsonRequestPacketDeserializer::deserializeLoginRequest(msgInfo->buffer);
-			break; }
-
-		case SING: {
-			SignupRequest req = JsonRequestPacketDeserializer::deserializeSignupRequest(msgInfo->buffer);
-			break; }
-
+			continue;
 		}
+
+		result = m_clients[soc]->handleRequest(*msgInfo);
+
+		mtx.lock();
+		m_clients[soc] = result->newHandler;
+		mtx.unlock();
+
+		std::cout << (char*)&result->buffer[0] << std::endl;
 	}
-	RequestResult result;
-	result.buffer;
 }
 
-Communicator::Communicator()
+Communicator::Communicator(RequestHandlerFactory& handlerFactory) : m_handlerFactory(handlerFactory)
 {
 	m_serverSocket = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (m_serverSocket == INVALID_SOCKET)

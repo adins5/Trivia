@@ -8,9 +8,12 @@
 int main()
 {
 	WSAInitializer wsaInit;
-	Server server;
+	IDatabase* database = new SqliteDataBase();
+
+	RequestHandlerFactory handlerFactory(database);
+
+	Server server(database, handlerFactory);
 	server.run();
 
-
-
+	return 0;
 }

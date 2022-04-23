@@ -17,7 +17,8 @@ RequestInfo* MessageHandler::recvMsg(SOCKET clientSoc)
 	RequestInfo* msg = new RequestInfo;
 
 	char buff[BUFFLEN] = "";
-	if (recv(clientSoc, buff, BUFFLEN, 0) == INVALID_SOCKET)
+	int ret = recv(clientSoc, buff, BUFFLEN, 0);
+	if (ret == SOCKET_ERROR)
 	{
 		throw std::exception("Error while sending message to client");
 	}
