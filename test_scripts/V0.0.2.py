@@ -1,23 +1,22 @@
 import socket
 import json
 
-SERVER_ADDRESS = ('127.0.0.1', 2022)
+SERVER_ADDRESS = ('127.0.0.1', 8826)
 
 
 def main():
     with socket.socket(type=socket.SOCK_STREAM) as sock:
         sock.connect(SERVER_ADDRESS)
 
-        signup = json({"username": "user1", "password": "1234", "mail": "user1@gmail.com"})
-        sock.sendall(signup)
+        signup = '20064{"username":"user1","password":"1234","email":"user1@gmail.com"}'
+        sock.sendall(signup.encode())
         res = sock.recv(1024).decode()
-        print (res)
+        print(res)
 
-        login = json({"username": "user1", "password": "1234"})
-        sock.sendall(login)
+        login = '10038{"username":"user1","password":"1234"}'
+        sock.sendall(login.encode())
         res = sock.recv(1024).decode()
-        print (res)
-
+        print(res)
 
 if __name__ == '__main__':
     main()

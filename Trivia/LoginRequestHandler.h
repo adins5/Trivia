@@ -10,6 +10,6 @@ class LoginRequestHandler : public IRequestHandler {
 public:
 	LoginRequestHandler();
 	~LoginRequestHandler() {};
-	bool isRequestRelevant(struct RequestInfo info) override;
-	struct RequestResult* handleRequest(struct RequestInfo info) override;
+	bool isRequestRelevant(struct RequestInfo* info) override;
+	struct RequestResult* handleRequest(struct RequestInfo* info, SOCKET soc) override;
 };

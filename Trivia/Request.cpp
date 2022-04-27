@@ -4,7 +4,7 @@ using json = nlohmann::json;
 
 LoginRequest& JsonRequestPacketDeserializer::deserializeLoginRequest(std::vector<unsigned char> buffer)
 {
-	std::string msg(buffer.begin() + 6, buffer.end());
+	std::string msg(buffer.begin() + 5, buffer.end());
 	json forStruct = json::parse(msg);
 	
 	LoginRequest req;
@@ -16,7 +16,7 @@ LoginRequest& JsonRequestPacketDeserializer::deserializeLoginRequest(std::vector
 
 SignupRequest& JsonRequestPacketDeserializer::deserializeSignupRequest(std::vector<unsigned char> buffer)
 {
-	std::string msg(buffer.begin() + 6, buffer.end());
+	std::string msg(buffer.begin() + 5, buffer.end());
 	json forStruct = json::parse(msg);
 
 	SignupRequest req;

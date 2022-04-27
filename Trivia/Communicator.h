@@ -39,7 +39,6 @@ private:
 	std::map<SOCKET, IRequestHandler*> m_clients;
 	int bindAndListen();
 	void handleNewClient(SOCKET soc);
-	MessageHandler m_msgHelper;
 
 public:
 	Communicator();

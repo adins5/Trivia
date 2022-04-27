@@ -1,5 +1,5 @@
 #include "Communicator.h"
-#define PORT 2022
+#define PORT 8826
 #define BUFFLEN 265
 
 
@@ -37,33 +37,18 @@ int Communicator::bindAndListen()
 void Communicator::handleNewClient(SOCKET soc)
 {
 	LoginRequestHandler* req = new LoginRequestHandler();
-    m_clients.insert(std::pair<SOCKET, IRequestHandler*>(soc, req));
+	m_clients.insert(std::pair<SOCKET, IRequestHandler*>(soc, req));
 
-
-	RequestInfo* msgInfo = m_msgHelper.recvMsg(soc);
-	
-	if (m_clients[soc]->isRequestRelevant(*msgInfo))
+	while (true)
 	{
-		switch (msgInfo->id)
-		{
-		case LOGIN: {
-			LoginRequest req = JsonRequestPacketDeserializer::deserializeLoginRequest(msgInfo->buffer);
-			LoginResponse res;
-			res.status = 1;
-			m_msgHelper.sendMsg(JsonResponsePacketSerializer::serializeResponse(res), soc);
-			break; }
+		RequestInfo* msgInfo = MessageHandler::recvMsg(soc);
 
-		case SING: {
-			SignupRequest req = JsonRequestPacketDeserializer::deserializeSignupRequest(msgInfo->buffer);
-			SignupResponse res;
-			res.status = 2;
-			m_msgHelper.sendMsg(JsonResponsePacketSerializer::serializeResponse(res), soc);
-			break; }
+		if (m_clients[soc]->isRequestRelevant(msgInfo))
+		{
+			RequestResult* result = m_clients[soc]->handleRequest(msgInfo, soc);
 
 		}
 	}
-	RequestResult result;
-	result.buffer;
 }
 
 Communicator::Communicator()

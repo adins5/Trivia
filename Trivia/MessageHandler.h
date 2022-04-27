@@ -7,8 +7,7 @@ class Communicator;
 
 class MessageHandler {
 public:
-	MessageHandler() = default;
-	void sendMsg(std::string msg, SOCKET clientSoc);
-	struct RequestInfo* recvMsg(SOCKET clientSoc);
+	static void sendMsg(std::string msg, SOCKET clientSoc);
+	static struct RequestInfo* recvMsg(SOCKET clientSoc);
 
 };
