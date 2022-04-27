@@ -24,11 +24,11 @@ struct SignupResponse {
 
 class JsonResponsePacketSerializer {
 public:
-	static std::vector<unsigned char> serializeResponse(ErrorResponse res);
-	static std::vector<unsigned char> serializeResponse(SignupResponse res);
-	static std::vector<unsigned char> serializeResponse(LoginResponse res);
+	static std::string serializeResponse(ErrorResponse res);
+	static std::string serializeResponse(SignupResponse res);
+	static std::string serializeResponse(LoginResponse res);
 
 private:
-	static std::vector<unsigned char> serializeResponse(json& response, int code);
+	static std::string serializeResponse(json& response, int code);
 
 };
