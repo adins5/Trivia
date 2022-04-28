@@ -11,7 +11,7 @@ public:
 	~MenuRequestHandler() = default;
 
 	bool isRequestRelevant(RequestInfo info) override { return true; }
-	struct RequestResult* handleRequest(RequestInfo info) override { RequestResult* x = new RequestResult;  return x; }
+	struct RequestResult* handleRequest(RequestInfo info, SOCKET soc) override { RequestResult* x = new RequestResult;  return x; }
 
 private:
 

@@ -9,6 +9,7 @@ int main()
 {
 	WSAInitializer wsaInit;
 	IDatabase* database = new SqliteDataBase();
+	database->open();
 
 	RequestHandlerFactory handlerFactory(database);
 

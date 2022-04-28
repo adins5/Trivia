@@ -15,10 +15,10 @@ public:
 	~LoginRequestHandler() = default;
 
 	bool isRequestRelevant(struct RequestInfo info) override;
-	struct RequestResult* handleRequest(struct RequestInfo info) override;
+	struct RequestResult* handleRequest(struct RequestInfo info, SOCKET soc) override;
 
-	struct RequestResult* login(struct RequestInfo info);
-	struct RequestResult* signup(struct RequestInfo info);
+	struct RequestResult* login(struct RequestInfo info, SOCKET soc);
+	struct RequestResult* signup(struct RequestInfo info, SOCKET soc);
 
 private:
 	LoginManager& m_loginManager;

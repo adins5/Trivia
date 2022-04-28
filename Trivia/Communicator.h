@@ -21,18 +21,6 @@ class MessageHandler;
 class JsonResponsePacketSerializer;
 class JsonRequestPacketDeserializer; 
 
-struct RequestInfo {
-	int id;
-	time_t ctime;
-	std::vector<unsigned char> buffer;
-} typedef RequestInfo;
-
-struct RequestResult {
-	std::vector<unsigned char> buffer;
-	IRequestHandler* newHandler;
-
-}typedef RequestResult;
-
 
 class Communicator {
 private:

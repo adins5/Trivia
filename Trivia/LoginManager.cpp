@@ -4,7 +4,6 @@
 bool LoginManager::signup(std::string username, std::string password, std::string email)
 {
 
-
 	if (m_database->addNewUser(username, password, email))
 	{
 		LoggedUser newUser(username);
