@@ -18,5 +18,6 @@ def main():
         res = sock.recv(1024).decode()
         print(res)
 
+
 if __name__ == '__main__':
     main()
