@@ -41,8 +41,17 @@ void Communicator::handleNewClient(SOCKET soc)
 
 	while (true)
 	{
-		RequestInfo* msgInfo = MessageHandler::recvMsg(soc);
-
+		RequestInfo* msgInfo;
+		try
+		{
+			msgInfo = MessageHandler::recvMsg(soc);
+		}
+		catch (const std::exception& e)
+		{
+			std::cerr << "error reciving message, client disconected" << std::endl;
+			return;
+		}
+		
 		if (m_clients[soc]->isRequestRelevant(msgInfo))
 		{
 			RequestResult* result = m_clients[soc]->handleRequest(msgInfo, soc);

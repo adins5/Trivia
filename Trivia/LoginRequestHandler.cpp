@@ -32,7 +32,6 @@ RequestResult* LoginRequestHandler::handleRequest(RequestInfo* info, SOCKET soc)
 		SignupResponse* res = new SignupResponse;
 		res->status = 2;
 		MessageHandler::sendMsg(JsonResponsePacketSerializer::serializeResponse(*res), soc);
-		std::cout << "signup complete";
 		break; }
 	}
 
