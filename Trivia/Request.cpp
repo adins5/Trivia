@@ -1,4 +1,6 @@
 #include "Request.h"
+#include "json.hpp"
+using json = nlohmann::json;
 
 LoginRequest& JsonRequestPacketDeserializer::deserializeLoginRequest(std::vector<unsigned char> buffer)
 {

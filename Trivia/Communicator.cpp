@@ -1,5 +1,9 @@
 #include "Communicator.h"
-#define PORT 8826
+#include <mutex>          
+
+std::mutex mtx;
+
+#define PORT 2022
 #define BUFFLEN 265
 
 
@@ -36,11 +40,17 @@ int Communicator::bindAndListen()
 
 void Communicator::handleNewClient(SOCKET soc)
 {
-	LoginRequestHandler* req = new LoginRequestHandler();
-	m_clients.insert(std::pair<SOCKET, IRequestHandler*>(soc, req));
+	RequestResult* result = nullptr;
+	
+	mtx.lock();
+    m_clients[soc] =  (IRequestHandler*)m_handlerFactory.createLoginRequestHandler();
+	mtx.unlock();
 
 	while (true)
 	{
+		RequestInfo* msgInfo = m_msgHelper.recvMsg(soc);
+
+		if (!m_clients[soc]->isRequestRelevant(*msgInfo))
 		RequestInfo* msgInfo;
 		try
 		{
@@ -50,17 +60,19 @@ void Communicator::handleNewClient(SOCKET soc)
 		{
 			std::cerr << "error reciving message, client disconected" << std::endl;
 			return;
+			continue;
 		}
-		
-		if (m_clients[soc]->isRequestRelevant(msgInfo))
-		{
-			RequestResult* result = m_clients[soc]->handleRequest(msgInfo, soc);
 
-		}
+		result = m_clients[soc]->handleRequest(*msgInfo);
+
+		mtx.lock();
+		m_clients[soc] = result->newHandler;
+		mtx.unlock();
+
 	}
 }
 
-Communicator::Communicator()
+Communicator::Communicator(RequestHandlerFactory& handlerFactory) : m_handlerFactory(handlerFactory)
 {
 	m_serverSocket = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (m_serverSocket == INVALID_SOCKET)

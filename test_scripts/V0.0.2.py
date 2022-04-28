@@ -1,7 +1,8 @@
 import socket
 import json
+import time
 
-SERVER_ADDRESS = ('127.0.0.1', 8826)
+SERVER_ADDRESS = ('127.0.0.1', 2022)
 
 
 def main():

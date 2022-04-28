@@ -13,6 +13,7 @@
 #include "MessageHandler.h"
 #include "Request.h"
 #include "Response.h"
+#include "RequestHandlerFactory.h"
 
 class IRequestHandler;
 class LoginRequestHandler;
@@ -37,11 +38,14 @@ class Communicator {
 private:
 	SOCKET m_serverSocket;
 	std::map<SOCKET, IRequestHandler*> m_clients;
+	MessageHandler m_msgHelper;
+	RequestHandlerFactory& m_handlerFactory;
+
 	int bindAndListen();
 	void handleNewClient(SOCKET soc);
 
 public:
-	Communicator();
+	Communicator(RequestHandlerFactory& handlerFactory);
 	void startHandleRequests();
 };
 

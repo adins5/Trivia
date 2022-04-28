@@ -1,9 +1,6 @@
 #include "Server.h"
 #include <string>
 
-Server::Server()
-{
-}
 
 void Server::run()
 {
