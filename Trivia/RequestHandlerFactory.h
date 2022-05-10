@@ -9,7 +9,7 @@ class LoginRequestHandler;
 class RequestHandlerFactory
 {
 public:
-	RequestHandlerFactory(IDatabase* database) : m_database(database), m_loginManager(m_database) {}
+	RequestHandlerFactory(IDatabase* database) : m_database(database), m_loginManager(database) {}
 	~RequestHandlerFactory() = default;
 
 	LoginRequestHandler* createLoginRequestHandler();
