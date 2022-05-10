@@ -2,27 +2,27 @@
 #include "json.hpp"
 using json = nlohmann::json;
 
-LoginRequest& JsonRequestPacketDeserializer::deserializeLoginRequest(std::vector<unsigned char> buffer)
+LoginRequest* JsonRequestPacketDeserializer::deserializeLoginRequest(std::vector<unsigned char> buffer)
 {
 	std::string msg(buffer.begin() + 5, buffer.end());
 	json forStruct = *JsonRequestPacketDeserializer::parseHelp(msg);
 	
-	LoginRequest req;
-	req.username = forStruct["username"];
-	req.password = forStruct["password"];
+	LoginRequest* req = new LoginRequest;
+	req->username = forStruct["username"];
+	req->password = forStruct["password"];
 
 	return req;
 }
 
-SignupRequest& JsonRequestPacketDeserializer::deserializeSignupRequest(std::vector<unsigned char> buffer)
+SignupRequest* JsonRequestPacketDeserializer::deserializeSignupRequest(std::vector<unsigned char> buffer)
 {
 	std::string msg(buffer.begin() + 5, buffer.end());
 	json forStruct = *JsonRequestPacketDeserializer::parseHelp(msg);
 
-	SignupRequest req;
-	req.username = forStruct["username"];
-	req.password = forStruct["password"];
-	req.email = forStruct["email"];
+	SignupRequest* req = new SignupRequest;
+	req->username = forStruct["username"];
+	req->password = forStruct["password"];
+	req->email = forStruct["email"];
 
 	return req;
 }

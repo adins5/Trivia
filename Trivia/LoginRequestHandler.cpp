@@ -45,8 +45,8 @@ struct RequestResult* LoginRequestHandler::login(struct RequestInfo info, SOCKET
 	RequestResult* ret = new RequestResult;
 	ret->buffer = info.buffer;
 	
-	LoginRequest req = JsonRequestPacketDeserializer::deserializeLoginRequest(info.buffer);
-	if (!m_loginManager.login(req.username, req.password))
+	LoginRequest* req = JsonRequestPacketDeserializer::deserializeLoginRequest(info.buffer);
+	if (!m_loginManager.login(req->username, req->password))
 	{
 		res->status = 0;
 		ret->newHandler = m_handlerFactory.createLoginRequestHandler();
@@ -70,8 +70,8 @@ struct RequestResult* LoginRequestHandler::signup(struct RequestInfo info, SOCKE
 	RequestResult* ret = new RequestResult;
 	ret->buffer = info.buffer;
 
-	SignupRequest req = JsonRequestPacketDeserializer::deserializeSignupRequest(info.buffer);
-	if (!m_loginManager.signup(req.username, req.password, req.email))
+	SignupRequest* req = JsonRequestPacketDeserializer::deserializeSignupRequest(info.buffer);
+	if (!m_loginManager.signup(req->username, req->password, req->email))
 	{
 		res->status = 0;
 		ret->newHandler = m_handlerFactory.createLoginRequestHandler();
