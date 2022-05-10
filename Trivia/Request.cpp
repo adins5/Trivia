@@ -5,7 +5,7 @@ using json = nlohmann::json;
 LoginRequest& JsonRequestPacketDeserializer::deserializeLoginRequest(std::vector<unsigned char> buffer)
 {
 	std::string msg(buffer.begin() + 5, buffer.end());
-	json forStruct = json::parse(msg);
+	json forStruct = *JsonRequestPacketDeserializer::parseHelp(msg);
 	
 	LoginRequest req;
 	req.username = forStruct["username"];
