@@ -27,6 +27,42 @@ SignupRequest* JsonRequestPacketDeserializer::deserializeSignupRequest(std::vect
 	return req;
 }
 
+GetPlayersInRoomRequest* JsonRequestPacketDeserializer::deserializeGetPlayersInRoomRequest(std::vector<unsigned char> buffer)
+{
+	std::string msg(buffer.begin() + 5, buffer.end());
+	json forStruct = *JsonRequestPacketDeserializer::parseHelp(msg);
+
+	GetPlayersInRoomRequest* req = new GetPlayersInRoomRequest;
+	req->roomId = forStruct["roomId"];
+
+	return req;
+}
+
+JoinRoomRequest* JsonRequestPacketDeserializer::deserializeJoinRoomRequest(std::vector<unsigned char> buffer)
+{
+	std::string msg(buffer.begin() + 5, buffer.end());
+	json forStruct = *JsonRequestPacketDeserializer::parseHelp(msg);
+
+	JoinRoomRequest* req = new JoinRoomRequest;
+	req->roomId = forStruct["roomId"];
+
+	return req;
+}
+
+CreateRoomRequest* JsonRequestPacketDeserializer::deserializeCreateRoomRequest(std::vector<unsigned char> buffer)
+{
+	std::string msg(buffer.begin() + 5, buffer.end());
+	json forStruct = *JsonRequestPacketDeserializer::parseHelp(msg);
+
+	CreateRoomRequest* req = new CreateRoomRequest;
+	req->roomName = forStruct["roomName"];
+	req->maxUsers = forStruct["maxUsers"];
+	req->questionCount = forStruct["questionCount"];
+	req->answerTimeout = forStruct["answerTimeout"];
+
+	return req;
+}
+
 json* JsonRequestPacketDeserializer::parseHelp(std::string msg)
 {
 	json* forStruct = new json;
@@ -40,4 +76,3 @@ json* JsonRequestPacketDeserializer::parseHelp(std::string msg)
 	}
 	return forStruct;
 }
-

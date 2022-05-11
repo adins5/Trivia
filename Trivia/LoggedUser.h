@@ -8,6 +8,7 @@ public:
 	~LoggedUser() {}
 
 	inline std::string getUsername() { return m_username; }
+	bool operator==(LoggedUser other);
 
 private:
 	std::string m_username;
