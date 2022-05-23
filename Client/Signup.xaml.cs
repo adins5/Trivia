@@ -56,16 +56,8 @@ namespace Client
                     email = email.Text
                 };
                 string jsonStr = JsonSerializer.Serialize(signupjson);
-                string signupStr = '2' + jsonStr.Length.ToString().PadLeft(4, '0') + jsonStr;
-                _socket.Send(Encoding.ASCII.GetBytes(signupStr));
-
-                byte[] recv = new byte[1024];
-                _socket.ReceiveTimeout = 10000;
-                _socket.Receive(recv);
-                string res = Encoding.ASCII.GetString(recv);
-                res = res.Substring(5, res.Length - 5);
-                int msgLen = Int32.Parse(Encoding.ASCII.GetString(recv).Substring(1, 4));
-                Response jsonRes = JsonSerializer.Deserialize<Response>(res.Substring(0, msgLen))!;
+                string res = Helper.sendRecieve(jsonStr, 2, _socket);
+                Response jsonRes = JsonSerializer.Deserialize<Response>(res)!;
 
                 if (jsonRes.status == 1)
                 {

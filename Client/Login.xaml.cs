@@ -16,7 +16,6 @@ using System.Net.Sockets;
 using System.Net;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.IO;
 
 public class Response
 {
@@ -57,15 +56,8 @@ namespace Client
                     password = pass.Text,
                 };
                 string jsonStr = JsonSerializer.Serialize(loginjson);
-                string loginStr = '1' + jsonStr.Length.ToString().PadLeft(4, '0') + jsonStr;
-                _socket.Send(Encoding.ASCII.GetBytes(loginStr));
-                
-                byte[] recv = new byte[1024];
-                _socket.Receive(recv);
-                string res = Encoding.ASCII.GetString(recv);
-                res = res.Substring(5, res.Length - 5);
-                int msgLen = Int32.Parse(Encoding.ASCII.GetString(recv).Substring(1, 4));
-                Response jsonRes = JsonSerializer.Deserialize<Response>(res.Substring(0, msgLen))!;
+                string res = Helper.sendRecieve(jsonStr, 1, _socket);
+                Response jsonRes = JsonSerializer.Deserialize<Response>(res)!;
 
                 if (jsonRes.status == 1)
                 {   
@@ -90,6 +82,22 @@ namespace Client
             wnd.ShowDialog();
         }
 
+    }
+    class Helper
+    {
+        public static string sendRecieve(string jsonStr, int code, Socket _socket)
+        {
+            string loginStr = code.ToString() + jsonStr.Length.ToString().PadLeft(4, '0') + jsonStr;
+            _socket.Send(Encoding.ASCII.GetBytes(loginStr));
+
+            byte[] recv = new byte[1024];
+            _socket.Receive(recv);
+            string res = Encoding.ASCII.GetString(recv);
+            res = res.Substring(5, res.Length - 5);
+            int msgLen = Int32.Parse(Encoding.ASCII.GetString(recv).Substring(1, 4));
+
+            return res.Substring(0, msgLen);
+        }
     }
 }
 
