@@ -69,7 +69,7 @@ namespace Client
 
                 if (jsonRes.status == 1)
                 {
-                    Main wnd = new();
+                    Main wnd = new(_socket);
                     Close();
                     MessageBox.Show("New acount created!", "Signup Succesfull", MessageBoxButton.OK, MessageBoxImage.Information);
                     wnd.ShowDialog();

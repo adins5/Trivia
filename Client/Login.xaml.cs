@@ -69,7 +69,7 @@ namespace Client
 
                 if (jsonRes.status == 1)
                 {   
-                    Main wnd = new();
+                    Main wnd = new(_socket);
                     Close();
                     wnd.ShowDialog();
                     return;

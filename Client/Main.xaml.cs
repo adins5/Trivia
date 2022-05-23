@@ -19,13 +19,13 @@ namespace Client
     /// <summary>
     /// Interaction logic for Main.xaml
     /// </summary>
-    public partial class Main : Window
+    public partial class Main : Window 
     {
-        /*System.Net.Sockets.TcpClient _socket;
-        public Main(System.Net.Sockets.TcpClient soc)
+        Socket _socket;
+        public Main(Socket soc)
         {
             InitializeComponent();
             _socket = soc;
-        }*/
+        }
     }
 }
