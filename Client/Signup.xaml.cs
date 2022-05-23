@@ -33,9 +33,11 @@ namespace Client
     /// </summary>
     public partial class Signup : Window
     {
-        public Signup()
+        Socket _socket;
+        public Signup(Socket soc)
         {
             InitializeComponent();
+            _socket = soc;        
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
@@ -55,13 +57,21 @@ namespace Client
                 };
                 string jsonStr = JsonSerializer.Serialize(signupjson);
                 string signupStr = '2' + jsonStr.Length.ToString().PadLeft(4, '0') + jsonStr;
+                _socket.Send(Encoding.ASCII.GetBytes(signupStr));
 
-                string res = "";
+                byte[] recv = new byte[1024];
+                _socket.ReceiveTimeout = 10000;
+                _socket.Receive(recv);
+                string res = Encoding.ASCII.GetString(recv);
+                res = res.Substring(5, res.Length - 5);
+                int msgLen = Int32.Parse(Encoding.ASCII.GetString(recv).Substring(1, 4));
+                Response jsonRes = JsonSerializer.Deserialize<Response>(res.Substring(0, msgLen))!;
 
-                if (res != null)
+                if (jsonRes.status == 1)
                 {
                     Main wnd = new();
                     Close();
+                    MessageBox.Show("New acount created!", "Signup Succesfull", MessageBoxButton.OK, MessageBoxImage.Information);
                     wnd.ShowDialog();
                     return;
                 }

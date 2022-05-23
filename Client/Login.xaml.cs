@@ -61,15 +61,14 @@ namespace Client
                 _socket.Send(Encoding.ASCII.GetBytes(loginStr));
                 
                 byte[] recv = new byte[1024];
-                _socket.ReceiveTimeout = 10000;
                 _socket.Receive(recv);
                 string res = Encoding.ASCII.GetString(recv);
                 res = res.Substring(5, res.Length - 5);
-
-                Response jsonRes = JsonSerializer.Deserialize<Response>(res)!;
+                int msgLen = Int32.Parse(Encoding.ASCII.GetString(recv).Substring(1, 4));
+                Response jsonRes = JsonSerializer.Deserialize<Response>(res.Substring(0, msgLen))!;
 
                 if (jsonRes.status == 1)
-                {
+                {   
                     Main wnd = new();
                     Close();
                     wnd.ShowDialog();
@@ -86,7 +85,7 @@ namespace Client
 
         private void Singup_Click(object sender, RoutedEventArgs e)
         {
-            Signup wnd = new Signup();
+            Signup wnd = new Signup(_socket);
             Close();
             wnd.ShowDialog();
         }
