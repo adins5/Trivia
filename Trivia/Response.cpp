@@ -103,7 +103,7 @@ std::string JsonResponsePacketSerializer::serializeResponse(getPersonalStatsResp
 std::string JsonResponsePacketSerializer::serializeResponse(json& response, int code)
 {
 	std::string jsonString = response.dump();
-	int len = jsonString.length() * 4;
+	int len = jsonString.length();
 
 	std::stringstream msgLen;
 	msgLen << std::setfill('0') << std::setw(MSG_LEN_SIZE) << len; //
