@@ -11,6 +11,8 @@ public:
 	unsigned int getRoomState(int id);
 	std::vector<RoomData> getRooms();
 
+	inline Room getRoom(int id) { return m_rooms[id]; }
+
 private:
 	std::map<int, Room> m_rooms;
 	int roomId;

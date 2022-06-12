@@ -4,9 +4,8 @@
 #include "LoginManager.h"
 #include "Communicator.h"
 
-//class Communicator;
+
 class RequestHandlerFactory;
-class Communicator;
 
 class LoginRequestHandler : public IRequestHandler {
 

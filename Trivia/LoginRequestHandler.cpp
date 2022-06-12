@@ -1,8 +1,7 @@
-
 #include "LoginRequestHandler.h"
 #include "RequestHandlerFactory.h"
-#include "Communicator.h"
 #include "Response.h"
+
 
 
 bool LoginRequestHandler::isRequestRelevant(RequestInfo info)
@@ -54,7 +53,8 @@ struct RequestResult* LoginRequestHandler::login(struct RequestInfo info, SOCKET
 		return ret;
 	}
 
-	ret->newHandler = m_handlerFactory.createMenuRequestHandler();
+	LoggedUser user(req->username);
+	ret->newHandler = (IRequestHandler*)m_handlerFactory.createMenuRequestHandler(user);
 	res->status = 1;
 	MessageHandler::sendMsg(JsonResponsePacketSerializer::serializeResponse(*res), soc);
 
@@ -79,7 +79,8 @@ struct RequestResult* LoginRequestHandler::signup(struct RequestInfo info, SOCKE
 		return ret;
 	}
 
-	ret->newHandler = m_handlerFactory.createMenuRequestHandler();
+	LoggedUser user(req->username);
+	ret->newHandler = (IRequestHandler*)m_handlerFactory.createMenuRequestHandler(user);
 
 	res->status = 1;
 	MessageHandler::sendMsg(JsonResponsePacketSerializer::serializeResponse(*res), soc);

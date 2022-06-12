@@ -16,5 +16,7 @@ int main()
 	Server server(database, handlerFactory);
 	server.run();
 
+	database->close();
+
 	return 0;
 }

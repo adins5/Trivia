@@ -43,7 +43,7 @@ void Communicator::handleNewClient(SOCKET soc)
 	RequestResult* result = nullptr;
 	
 	mtx.lock();
-    m_clients[soc] =  (IRequestHandler*)m_handlerFactory.createLoginRequestHandler();
+    m_clients[soc] = (IRequestHandler*)m_handlerFactory.createLoginRequestHandler();
 	mtx.unlock();
 
 	while (true)
@@ -56,7 +56,7 @@ void Communicator::handleNewClient(SOCKET soc)
 		catch (const std::exception& e)
 		{
 			std::cerr << "error reciving message, client disconected" << std::endl;
-			return;
+			break;
 		}
 
 		if (!m_clients[soc]->isRequestRelevant(*msgInfo))
@@ -69,6 +69,8 @@ void Communicator::handleNewClient(SOCKET soc)
 		m_clients[soc] = result->newHandler;
 		mtx.unlock();
 	}
+
+	return;
 }
 
 Communicator::Communicator(RequestHandlerFactory& handlerFactory) : m_handlerFactory(handlerFactory)

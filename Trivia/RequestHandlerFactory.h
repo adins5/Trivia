@@ -1,12 +1,12 @@
 #pragma once
 
 #include "LoginManager.h"
-#include "MenuRequestHandler.h"
 #include "SqliteDataBase.h"
-#include "RoomManager.h"
 #include "StatisticsManager.h"
+#include "RoomManager.h"
 
 class LoginRequestHandler;
+class MenuRequestHandler;
 
 class RequestHandlerFactory
 {
@@ -15,7 +15,7 @@ public:
 	~RequestHandlerFactory() = default;
 
 	LoginRequestHandler* createLoginRequestHandler();
-	MenuRequestHandler* createMenuRequestHandler();
+	MenuRequestHandler* createMenuRequestHandler(LoggedUser user);
 
 	inline LoginManager& getLoginManager() { return m_loginManager; };
 	inline roomManager& getroomManager() { return m_roomManager; };

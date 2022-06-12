@@ -2,7 +2,6 @@
 #include <vector>
 #include "LoggedUser.h"
 
-class LoggedUser;
 
 struct RoomData {
 	unsigned int id;
@@ -19,7 +18,7 @@ class Room
 public:
 	Room() {}
 	Room(RoomData data, LoggedUser user);
-	void addUser(LoggedUser user);
+	int addUser(LoggedUser user);
 	void removeUser(LoggedUser user);
 	std::vector<std::string> getAllUsers();
 	RoomData getData();
