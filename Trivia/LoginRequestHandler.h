@@ -2,7 +2,6 @@
 
 #include "IRequestHandler.h"
 #include "LoginManager.h"
-#include "Communicator.h"
 
 
 class RequestHandlerFactory;

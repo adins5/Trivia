@@ -67,7 +67,11 @@ RequestResult* MenuRequestHandler::handleRequest(RequestInfo info, SOCKET soc)
 RequestResult* MenuRequestHandler::signout(RequestInfo info, SOCKET soc)
 {
 	RequestResult* ret = new RequestResult;
+	LogoutResponse* res = new LogoutResponse;
 	ret->buffer = info.buffer;
+	res->status = LOGOUT;
+
+	MessageHandler::sendMsg(JsonResponsePacketSerializer::serializeResponse(*res), soc);
 
 	return ret;
 }
@@ -77,6 +81,7 @@ RequestResult* MenuRequestHandler::getRooms(RequestInfo info, SOCKET soc)
 {
 	RequestResult* ret = new RequestResult;
 	GetRoomsResponse* res = new GetRoomsResponse;
+	ret->buffer = info.buffer;
 
 	res->rooms = m_roomManager.getRooms();
 	res->status = ROOMS_RESPONSE;
@@ -145,6 +150,14 @@ RequestResult* MenuRequestHandler::joinRoom(RequestInfo info, SOCKET soc)
 	
 	Room room = m_roomManager.getRoom(req->roomId);
 	res->status = room.addUser(m_user);
+	
+	if(res->status != JOIN_ROOM)
+	{
+		ErrorResponse* err = new ErrorResponse;
+		err->message = "Room is full";
+		MessageHandler::sendMsg(JsonResponsePacketSerializer::serializeResponse(*err), soc);
+		return ret;
+	}
 
 	MessageHandler::sendMsg(JsonResponsePacketSerializer::serializeResponse(*res), soc);
 

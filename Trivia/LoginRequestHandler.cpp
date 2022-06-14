@@ -1,7 +1,7 @@
 #include "LoginRequestHandler.h"
 #include "RequestHandlerFactory.h"
 #include "Response.h"
-
+#include "Communicator.h"
 
 
 bool LoginRequestHandler::isRequestRelevant(RequestInfo info)
