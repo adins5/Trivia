@@ -14,13 +14,18 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <Label Grid.Row="1">Room Number:</Label>
-        <TextBox Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" x:Name="roomNum" />
+        <Label Grid.Row="1">Room Ids:</Label>
+        <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" x:Name="roomNums" />
 
-        <Button Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Click="Cancel_Click">Cancel</Button>
-        <Button Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Click="Join_Click">Join Room</Button>
+        <Label Grid.Row="2">Enter Room Id:</Label>
+        <TextBox Grid.Row="2" Grid.Column="1" Margin="0,0,0,10" x:Name="Id" />
+        
+        <Button Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Click="Cancel_Click">Cancel</Button>
+        <Button Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Click="Join_Click">Join Room</Button>
         
     </Grid>
 </Window>

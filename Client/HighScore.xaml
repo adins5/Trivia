@@ -7,6 +7,10 @@
         mc:Ignorable="d"
         Title="HighScore" Height="450" Width="800">
     <Grid>
-        
+        <Button Content="menu" Click="Menu_Click" Width="70" Height="40" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="20"/>
+        <TextBlock x:Name="Title" HorizontalAlignment="Center" Text="Top Players" FontSize="30" TextAlignment="Center" Margin="40"/>
+        <StackPanel x:Name="Players"  HorizontalAlignment="Center" VerticalAlignment="Center">
+
+        </StackPanel>
     </Grid>
 </Window>

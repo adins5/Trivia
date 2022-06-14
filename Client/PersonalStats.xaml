@@ -7,6 +7,13 @@
         mc:Ignorable="d"
         Title="PersonalStats" Height="450" Width="800">
     <Grid>
-        
+        <Button Content="menu" Click="Menu_Click" Width="70" Height="40" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="20"/>
+        <TextBlock x:Name="Title" HorizontalAlignment="Center" Text="Personal Stats" FontSize="30" TextAlignment="Center" Margin="40"/>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock x:Name="Games" FontSize="20" TextAlignment="Center" Margin="0,60,0,0"/>
+            <TextBlock x:Name="Correct" FontSize="20" TextAlignment="Center" Margin="0,10"/>
+            <TextBlock x:Name="Incorrect" FontSize="20" TextAlignment="Center" Margin="0,10"/>
+            <TextBlock x:Name="AvTime" FontSize="20" TextAlignment="Center" Margin="0,10"/>
+        </StackPanel>
     </Grid>
 </Window>
