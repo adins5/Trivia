@@ -56,7 +56,7 @@ namespace Client
             Response response = JsonSerializer.Deserialize<Response>(res)!;
             if (response.status != 0)
             {
-                MessageBox.Show("success");
+                MessageBox.Show("room created");
             }
 
             RoomAdmin wnd = new RoomAdmin(_socket, request.roomName, request.maxUsers, request.questionCount, request.answerTimeout);

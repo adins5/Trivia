@@ -47,7 +47,7 @@ namespace Client
             Response response = JsonSerializer.Deserialize<Response>(res)!; 
             if (response.status != 0)
             {
-                MessageBox.Show("success"); 
+                MessageBox.Show("game started"); 
             }
         }
 
@@ -57,7 +57,7 @@ namespace Client
             Response response = JsonSerializer.Deserialize<Response>(res)!;
             if (response.status != 0)
             {
-                MessageBox.Show("success");
+                MessageBox.Show("room closed");
             }
             Main wnd = new Main(_socket);
             Close();
