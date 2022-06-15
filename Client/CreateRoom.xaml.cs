@@ -58,7 +58,9 @@ namespace Client
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
+            Main wnd = new Main(_socket);
             Close();
+            wnd.ShowDialog();
         }
     }
 }

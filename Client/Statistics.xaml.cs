@@ -35,12 +35,16 @@ namespace Client
 
         private void P_Click(object sender, RoutedEventArgs e)
         {
-
+            PersonalStats wnd = new PersonalStats(_socket);
+            Close();
+            wnd.ShowDialog();
         }
 
         private void H_Click(object sender, RoutedEventArgs e)
         {
-
+            HighScore wnd = new HighScore(_socket);
+            Close();
+            wnd.ShowDialog();
         }
     }
 }
