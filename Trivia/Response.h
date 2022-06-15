@@ -15,7 +15,10 @@ using json = nlohmann::json;
 #define PERSONAL_STATS 7
 #define JOIN_ROOM 8
 #define CREATE_ROOM 9
-
+#define CLOSE_ROOM 10
+#define START_GAME 11
+#define ROOM_STATE 12
+#define LEAVE_ROOM 13
 
 struct ErrorResponse {
 	std::string message;
@@ -60,6 +63,27 @@ struct getPersonalStatsResponse {
 	std::vector<std::string> statistics;
 } typedef getPersonalStatsResponse;
 
+struct CloseRoomResponse {
+	unsigned int status;
+} typedef CloseRoomResponse;
+
+struct StartGameResponse {
+	unsigned int status;
+} typedef LeaveRoomResponse;
+
+struct LeaveRoomResponse {
+	unsigned int status;
+} typedef LeaveRoomResponse;
+
+struct GetRoomStateResponse {
+	unsigned int status;
+	bool hasGameBegun;
+	std::vector<std::string> players;
+	unsigned int questionCount;
+	unsigned int answerTimeOut;
+} typedef GetRoomStateResponse;
+
+
 class JsonResponsePacketSerializer {
 public:
 	static std::string serializeResponse(ErrorResponse res);
@@ -72,8 +96,10 @@ public:
 	static std::string serializeResponse(CreateRoomResponse res);
 	static std::string serializeResponse(getPersonalStatsResponse res);
 	static std::string serializeResponse(getHighScoreResponse res);
-	
-	//static std::string serializeResponse(getHighScoreResponse high, getPersonalStatsResponse personal);
+	static std::string serializeResponse(CloseRoomResponse res);
+	static std::string serializeResponse(StartGameResponse res);
+	static std::string serializeResponse(LeaveRoomResponse res);
+	static std::string serializeResponse(GetRoomStateResponse res);
 
 private:
 	static std::string serializeResponse(json& response, int code);

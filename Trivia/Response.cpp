@@ -89,14 +89,38 @@ std::string JsonResponsePacketSerializer::serializeResponse(getPersonalStatsResp
 	return serializeResponse(response, PERSONAL_STATS);
 }
 
-//joined function
-//std::string JsonResponsePacketSerializer::serializeResponse(getHighScoreResponse high, getPersonalStatsResponse personal)
-//{
-//	json response;
-//	response["UserStatistics"] = high;
-//	response["HighScores"] = personal;
-//	return serializeResponse(response, 99); //
-//}
+std::string JsonResponsePacketSerializer::serializeResponse(CloseRoomResponse res)
+{
+	json response;
+	response["status"] = res.status;
+	return serializeResponse(response, CLOSE_ROOM);
+}
+
+std::string JsonResponsePacketSerializer::serializeResponse(StartGameResponse res)
+{
+	json response;
+	response["status"] = res.status;
+	return serializeResponse(response, START_GAME);
+}
+
+std::string JsonResponsePacketSerializer::serializeResponse(LeaveRoomResponse res)
+{
+	json response;
+	response["status"] = res.status;
+	return serializeResponse(response, LEAVE_ROOM);
+}
+
+std::string JsonResponsePacketSerializer::serializeResponse(GetRoomStateResponse res)
+{
+	json response;
+	response["status"] = res.status;
+	response["players"] = res.players;
+	response["hasGameBegun"] = res.hasGameBegun;
+	response["questionCount"] = res.questionCount;
+	response["answerTimeOut"] = res.answerTimeOut;
+	return serializeResponse(response, ROOM_STATE);
+}
+
 
 
 // helper function to turn the json to vector with the msg code and msg size
