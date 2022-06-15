@@ -37,14 +37,25 @@ public class RetRooms
     public int status { get; set; }
     private List<RoomData> rooms { get; set; }
 
-    public string getids()
+    public List<string> getNames()
     {
-        string ids = "";
+        List<string> names = new List<string>();
+        if (rooms == null)
+            return names;
         foreach (RoomData room in rooms)
         {
-            ids += (char)room.id + "\n";
+            names.Add(room.name);
         }
-        return ids;
+        return names;
+    }
+    public int getIdForRoom(string name)
+    {
+        foreach (RoomData room in rooms)
+        {
+            if (room.name == name)
+                return room.id; 
+        }
+        return -1;
     }
 }
 
@@ -53,32 +64,46 @@ namespace Client
     public partial class JoinRoom : Window
     {
         Socket _socket;
-        String roomIds = "";
+        RetRooms jsonRes;
+        string roomName;
         public JoinRoom(Socket soc)
         {
             InitializeComponent();
             _socket = soc;
             string res = Helper.sendRecieve("{}", 4, _socket);
-            RetRooms jsonRes = JsonSerializer.Deserialize<RetRooms>(res)!;
+            jsonRes = JsonSerializer.Deserialize<RetRooms>(res)!;
             
-            roomNums.Text = roomIds;
+            foreach (string name in jsonRes.getNames())
+            {
+                TextBlock tb = new TextBlock();
+                tb.Text = name.Split(':')[0];
+
+                RoomList.Items.Add(tb);
+            }
         }
         
         private void Join_Click(object sender, RoutedEventArgs e)
         {
+            string roomName = ((ComboBoxItem)RoomList.SelectedItem).ToString();
+
             JoinRoomRequest request = new JoinRoomRequest
             {
-                RoomId = Int32.Parse(Id.Text)
+                RoomId = jsonRes.getIdForRoom(roomName)
             };
 
             string jsonStr = JsonSerializer.Serialize(request);
             string res = Helper.sendRecieve(jsonStr, 8, _socket);
-            Response jsonRes = JsonSerializer.Deserialize<Response>(res)!;
+
+            Room wnd = new Room(_socket, roomName);
+            Close();
+            wnd.ShowDialog();
         }
 
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
+            Main wnd = new Main(_socket);
             Close();
+            wnd.ShowDialog();
         }
     }
 }

@@ -52,7 +52,16 @@ namespace Client
 
             string jsonStr = JsonSerializer.Serialize(request);
             string res = Helper.sendRecieve(jsonStr, 9, _socket);
-            Response jsonRes = JsonSerializer.Deserialize<Response>(res)!;
+
+            Response response = JsonSerializer.Deserialize<Response>(res)!;
+            if (response.status != 0)
+            {
+                MessageBox.Show("success");
+            }
+
+            RoomAdmin wnd = new RoomAdmin(_socket, request.roomName, request.maxUsers, request.questionCount, request.answerTimeout);
+            Close();
+            wnd.ShowDialog();
 
         }
 

@@ -12,60 +12,57 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+
 using System.Net.Sockets;
 using System.Net;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.IO;
 
-struct RoomStateResponse {
-    public int status { get; set; }
-    public bool hasGameBegun { get; set; }
-    public string[] players { get; set; }
-    public int questionCount { get; set; }
-    public int answerTimeOut { get; set; }
-}
-
 namespace Client
 {
     /// <summary>
-    /// Interaction logic for room.xaml
+    /// Interaction logic for RoomAdmin.xaml
     /// </summary>
-    public partial class Room : Window
+    public partial class RoomAdmin : Window
     {
         Socket _socket;
-        RoomStateResponse jsonRes;
-        public Room(Socket soc, string name)
+        public RoomAdmin(Socket soc, string name, int maxUsers, int questionCount, int answerTimeOut)
         {
             InitializeComponent();
             _socket = soc;
+
             string res = Helper.sendRecieve("{}", 12, _socket);
-            jsonRes = JsonSerializer.Deserialize<RoomStateResponse>(res)!;
+            RoomStateResponse jsonRes = JsonSerializer.Deserialize<RoomStateResponse>(res)!;
 
             Title.Text += name;
-            AdminName.Text += jsonRes.players[0];
-            QuestionCount.Text += jsonRes.questionCount;
-            AnswerTimeout.Text += jsonRes.answerTimeOut;
+            MaxUsers.Text += maxUsers;
+            QuestionCount.Text += questionCount;
+            AnswerTimeout.Text += answerTimeOut;
+        }
 
-            for (int i = 1; i < jsonRes.players.Length; i++)
+        private void Start_Click(object sender, RoutedEventArgs e)
+        {
+            string res = Helper.sendRecieve("{}", 11, _socket);
+            Response response = JsonSerializer.Deserialize<Response>(res)!; 
+            if (response.status != 0)
             {
-                TextBlock tb = new TextBlock();
-                tb.Text = jsonRes.players[i];
-                PlayerList.Items.Add(tb);
+                MessageBox.Show("success"); 
             }
         }
 
-        private void Leave_Click(object sender, RoutedEventArgs e)
+        private void Close_Click(object sender, RoutedEventArgs e)
         {
-            string res = Helper.sendRecieve("{}", 13, _socket);
-            Main wnd = new Main(_socket);
+            string res = Helper.sendRecieve("{}", 10, _socket);
             Response response = JsonSerializer.Deserialize<Response>(res)!;
             if (response.status != 0)
             {
                 MessageBox.Show("success");
             }
+            Main wnd = new Main(_socket);
             Close();
             wnd.ShowDialog();
+
         }
     }
 }

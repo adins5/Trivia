@@ -7,25 +7,11 @@
         mc:Ignorable="d"
         Title="JoinRoom" Height="450" Width="800">
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-
-        <Label Grid.Row="1">Room Ids:</Label>
-        <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" x:Name="roomNums" />
-
-        <Label Grid.Row="2">Enter Room Id:</Label>
-        <TextBox Grid.Row="2" Grid.Column="1" Margin="0,0,0,10" x:Name="Id" />
-        
-        <Button Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Click="Cancel_Click">Cancel</Button>
-        <Button Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Click="Join_Click">Join Room</Button>
-        
+        <Label >Room Names: (choose one)</Label>
+        <ComboBox x:Name="RoomList" HorizontalAlignment="Center" Height="50" Margin="0,50,0,0" ItemsSource="{Binding}">
+        </ComboBox>
+            
+        <Button VerticalAlignment="Bottom" HorizontalAlignment="Right" Click="Cancel_Click" Margin="20" >Cancel</Button>
+        <Button VerticalAlignment="Bottom" HorizontalAlignment="Left" Click="Join_Click" Margin="20" >Join Room</Button>
     </Grid>
 </Window>
