@@ -8,7 +8,7 @@ public:
 	~roomManager() {}
 	void createRoom(LoggedUser user, RoomData data);
 	void deleteRoom(int id);
-	unsigned int getRoomState(int id);
+	RoomData getRoomState(int id);
 	std::vector<RoomData> getRooms();
 
 	inline Room getRoom(int id) { return m_rooms[id]; }

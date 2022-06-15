@@ -12,10 +12,10 @@ void roomManager::deleteRoom(int id)
 	m_rooms.erase(m_rooms.find(id));
 }
 
-unsigned int roomManager::getRoomState(int id)
+RoomData roomManager::getRoomState(int id)
 {
 	RoomData data = m_rooms[id].getData();
-	return data.isActive;
+	return data;
 }
 
 std::vector<RoomData> roomManager::getRooms()
