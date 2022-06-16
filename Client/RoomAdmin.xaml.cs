@@ -18,6 +18,7 @@ using System.Net;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.IO;
+using System.Threading;
 
 namespace Client
 {
@@ -27,18 +28,24 @@ namespace Client
     public partial class RoomAdmin : Window
     {
         Socket _socket;
+        RoomStateResponse jsonRes;
         public RoomAdmin(Socket soc, string name, int maxUsers, int questionCount, int answerTimeOut)
         {
             InitializeComponent();
             _socket = soc;
 
             string res = Helper.sendRecieve("{}", 12, _socket);
-            RoomStateResponse jsonRes = JsonSerializer.Deserialize<RoomStateResponse>(res)!;
+            jsonRes = JsonSerializer.Deserialize<RoomStateResponse>(res)!;
 
             Title.Text += name;
             MaxUsers.Text += maxUsers;
             QuestionCount.Text += questionCount;
             AnswerTimeout.Text += answerTimeOut;
+
+            Helper.updatePlayerList(PlayerList, jsonRes.players);
+
+            Thread thread = new Thread(refreshLoop);
+            thread.Start();
         }
 
         private void Start_Click(object sender, RoutedEventArgs e)
@@ -63,6 +70,16 @@ namespace Client
             Close();
             wnd.ShowDialog();
 
+        }
+        private void refreshLoop()
+        {
+            while (true)
+            {
+                string res = Helper.sendRecieve("{}", 12, _socket);
+                jsonRes = JsonSerializer.Deserialize<RoomStateResponse>(res)!;
+                Helper.updatePlayerList(PlayerList, jsonRes.players);
+                Thread.Sleep(3000);
+            }
         }
     }
 }
