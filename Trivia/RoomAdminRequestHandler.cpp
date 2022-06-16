@@ -62,10 +62,12 @@ RequestResult* RoomAdminRequestHandler::closeRoom(RequestInfo info, SOCKET soc)
 	return ret;
 }
 
-
+//not finnished
 RequestResult* RoomAdminRequestHandler::startGame(RequestInfo info, SOCKET soc)
 {
+	RequestResult* ret = new RequestResult;
 
+	return ret;
 }
 
 
