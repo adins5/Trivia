@@ -17,7 +17,6 @@ bool MenuRequestHandler::isRequestRelevant(RequestInfo info)
 RequestResult* MenuRequestHandler::handleRequest(RequestInfo info, SOCKET soc) 
 { 
 	RequestResult* req = new RequestResult;
-	req->buffer = info.buffer;
 
 	switch (info.id)
 	{
@@ -181,6 +180,9 @@ RequestResult* MenuRequestHandler::createRoom(RequestInfo info, SOCKET soc)
 	data.timePerQuestion = req->answerTimeout;
 	data.isActive = 0;
 	
+	int ret = system("py addQuestion.py " + req->questionCount);
+	std::clog << "python: " << ret << std::endl;;
+
 	m_roomManager.createRoom(m_user, data);
 	res->status = CREATE_ROOM;
 	

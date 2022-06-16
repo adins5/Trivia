@@ -14,8 +14,8 @@ public:
 	MenuRequestHandler(LoggedUser user, roomManager& roomManager, StatisticsManager& statisticsManager, RequestHandlerFactory& handelFactory) : m_user(user), m_roomManager(roomManager), m_statisticsManager(statisticsManager), m_handelFactory(handelFactory) {}
 	~MenuRequestHandler() = default;
 
-	bool isRequestRelevant(RequestInfo info) override;
-	RequestResult* handleRequest(RequestInfo info, SOCKET soc) override;
+	virtual bool isRequestRelevant(RequestInfo info) override;
+	virtual RequestResult* handleRequest(RequestInfo info, SOCKET soc) override;
 	
 	RequestResult* signout(RequestInfo info, SOCKET soc);
 	RequestResult* getRooms(RequestInfo info, SOCKET soc);

@@ -1,19 +1,18 @@
 #! /usr/bin/python
 
+import sys
 import requests
 import sqlite3
 
-data = requests.get('https://opentdb.com/api.php?amount=10&category=18&difficulty=medium&type=multiple').json()
+data = requests.get('https://opentdb.com/api.php?amount=' + str(sys.argv) + '&category=18&difficulty=medium&type=multiple').json()
 
 con = sqlite3.connect('triviaDB.sqlite')
 cur = con.cursor()
 
 # Create table
-cur.execute('''CREATE TABLE QUESTIONS(ID INTEGER PRIMARY KEY  NOT NULL, QUESTION TEXT NOT NULL)''')
-cur.execute('''CREATE TABLE ANSWERS(ID INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL, Q_ID INTEGER NOT NULL, CORR_ANS INTEGER NOT NULL, ANSWER TEXT MOT NULL, FOREIGN KEY(Q_ID) REFERENCES QUESTIONS(ID))''')
 
 # Insert a row of data
-for i in range(1, 11):
+for i in range(1, int(str(sys.argv)) + 1):
     cur.execute("INSERT INTO QUESTIONS (ID, QUESTION) VALUES ({}, \"{}\")".format(i, data['results'][i - 1]['question']))
     cur.execute("INSERT INTO ANSWERS (Q_ID, CORR_ANS, ANSWER) VALUES ({}, 1, \"{}\")".format(i, data['results'][i - 1]['correct_answer']))
 
