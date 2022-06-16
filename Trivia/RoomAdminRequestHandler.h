@@ -19,6 +19,8 @@ public:
 	RequestResult* startGame(RequestInfo info, SOCKET soc);
 	RequestResult* getRoomState(RequestInfo info, SOCKET soc);
 
+	void deleteRoomHelper();
+
 private:
 	Room m_room;
 	LoggedUser m_user;

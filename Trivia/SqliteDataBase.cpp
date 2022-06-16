@@ -113,14 +113,14 @@ int SqliteDataBase::addRoom(std::string name)
 
 	std::string sqlS = "select id from ROOMS a WHERE a.ROOM_NAME LIKE \"" + name + "\"";
 	sqlite3_stmt* sth;
-	int res = sqlite3_prepare_v2(m_db, sqlS.c_str(), -1, &sth, 0);
-	if (res != SQLITE_OK)
+	int res2 = sqlite3_prepare_v2(m_db, sqlS.c_str(), -1, &sth, 0);
+	if (res2 != SQLITE_OK)
 	{
 		std::cerr << "Err in getPlayerAverageAnswerTime prepare: " << sqlite3_errmsg(m_db) << std::endl;
 		return -1;
 	}
 
-	res = sqlite3_step(sth);
+	res2 = sqlite3_step(sth);
 	int id = sqlite3_column_int(sth, 0);
 	
 	return id;

@@ -173,7 +173,7 @@ RequestResult* MenuRequestHandler::createRoom(RequestInfo info, SOCKET soc)
 	CreateRoomRequest* req = JsonRequestPacketDeserializer::deserializeCreateRoomRequest(info.buffer);
 	
 	RoomData data;
-	data.id = m_handelFactory.getDatabase().addRoom(req->roomName);
+	data.id = m_handelFactory.getDatabase()->addRoom(req->roomName);
 	data.name = req->roomName;
 	data.maxPlayers = req->maxUsers;
 	data.numOfQuestionsInGame = req->questionCount;

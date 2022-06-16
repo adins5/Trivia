@@ -20,7 +20,7 @@ public:
 	inline LoginManager& getLoginManager() { return m_loginManager; }
 	inline roomManager& getroomManager() { return m_roomManager; }
 	inline StatisticsManager& getStatisticsManager() { return m_statisticsManager; }
-	inline SqliteDataBase getDatabase() { return (SqliteDataBase*)m_database; }
+	inline SqliteDataBase* getDatabase() { return (SqliteDataBase*)m_database; }
 
 private:
 	LoginManager m_loginManager;

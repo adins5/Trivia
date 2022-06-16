@@ -4,6 +4,7 @@
 #include <chrono>
 #include <thread>
 
+
 bool RoomAdminRequestHandler::isRequestRelevant(struct RequestInfo info)
 {
 	if (info.id == CLOSE_ROOM || info.id == START_GAME || info.id == ROOM_STATE)
@@ -53,7 +54,7 @@ RequestResult* RoomAdminRequestHandler::closeRoom(RequestInfo info, SOCKET soc)
 	data.gameover = true;
 	m_room.setData(data);
 
-	std::thread deleteRoom(deleteRoomHelper, m_roomManager, m_HandlerFactory, data);
+	std::thread deleteRoom(&RoomAdminRequestHandler::deleteRoomHelper, this);
 	
 	MessageHandler::sendMsg(JsonResponsePacketSerializer::serializeResponse(*res), soc);
 
@@ -73,8 +74,6 @@ RequestResult* RoomAdminRequestHandler::startGame(RequestInfo info, SOCKET soc)
 	m_room.setData(data);
 
 	MessageHandler::sendMsg(JsonResponsePacketSerializer::serializeResponse(*res), soc);
-
-	return ret;
 
 	return ret;
 }
@@ -98,9 +97,11 @@ RequestResult* RoomAdminRequestHandler::getRoomState(RequestInfo info, SOCKET so
 	return ret;
 }
 
-void deleteRoomHelper(roomManager& room_Manager, RequestHandlerFactory& handlerFactory, RoomData data)
+
+void RoomAdminRequestHandler::deleteRoomHelper()
 {
 	std::this_thread::sleep_for(std::chrono::milliseconds(300));
-	room_Manager.deleteRoom(data.id);
-	handlerFactory.getDatabase().deleteRoom(data.name);
+	RoomData data = m_room.getData();
+	m_roomManager.deleteRoom(data.id);
+	m_HandlerFactory.getDatabase()->deleteRoom(data.name);
 }
