@@ -76,6 +76,7 @@ RequestResult* RoomAdminRequestHandler::startGame(RequestInfo info, SOCKET soc)
 
 	return ret;
 
+	return ret;
 }
 
 

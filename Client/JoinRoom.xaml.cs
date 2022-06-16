@@ -17,6 +17,7 @@ using System.Net;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.IO;
+using System.Threading;
 
 struct JoinRoomRequest
 {
@@ -72,14 +73,11 @@ namespace Client
             _socket = soc;
             string res = Helper.sendRecieve("{}", 4, _socket);
             jsonRes = JsonSerializer.Deserialize<RetRooms>(res)!;
-            
-            foreach (string name in jsonRes.getNames())
-            {
-                TextBlock tb = new TextBlock();
-                tb.Text = name.Split(':')[0];
 
-                RoomList.Items.Add(tb);
-            }
+            updateRooms(jsonRes.getNames());
+
+            Thread thread = new Thread(RoomLoop);
+            thread.Start();
         }
         
         private void Join_Click(object sender, RoutedEventArgs e)
@@ -104,6 +102,25 @@ namespace Client
             Main wnd = new Main(_socket);
             Close();
             wnd.ShowDialog();
+        }
+
+        private void updateRooms(List<string> names)
+        {
+            foreach (string name in names)
+            {
+                TextBlock tb = new TextBlock();
+                tb.Text = name.Split(':')[0];
+
+                RoomList.Items.Add(tb);
+            }
+        }
+
+        private void RoomLoop()
+        {
+            string res = Helper.sendRecieve("{}", 4, _socket);
+            RetRooms jsonRes = JsonSerializer.Deserialize<RetRooms>(res)!;
+            updateRooms(jsonRes.getNames());
+            Thread.Sleep(3000);
         }
     }
 }

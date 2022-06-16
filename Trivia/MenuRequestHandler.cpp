@@ -180,8 +180,8 @@ RequestResult* MenuRequestHandler::createRoom(RequestInfo info, SOCKET soc)
 	data.timePerQuestion = req->answerTimeout;
 	data.isActive = 0;
 	
-	int ret = system("py addQuestion.py " + req->questionCount);
-	std::clog << "python: " << ret << std::endl;;
+	int retur = system("py addQuestion.py " + req->questionCount);
+	std::clog << "python: " << retur << std::endl;;
 
 	m_roomManager.createRoom(m_user, data);
 	res->status = CREATE_ROOM;
