@@ -81,6 +81,7 @@ struct GetRoomStateResponse {
 	std::vector<std::string> players;
 	unsigned int questionCount;
 	unsigned int answerTimeOut;
+	bool gameover;
 } typedef GetRoomStateResponse;
 
 

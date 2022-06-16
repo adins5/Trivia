@@ -95,6 +95,57 @@ bool SqliteDataBase::addNewUser(std::string username, std::string password, std:
 }
 
 
+int SqliteDataBase::addRoom(std::string name)
+{
+	if (!isDB())
+		return 0;
+
+	std::stringstream sql;
+	char* errMessage = nullptr;
+	sql << "INSERT INTO ROOMS (ROOM_NAME) VALUES ('" << name << "')";
+
+	int res = sqlite3_exec(m_db, sql.str().c_str(), nullptr, nullptr, &errMessage);
+	if (res != SQLITE_OK)
+	{
+		std::cerr << "Err: " << errMessage << std::endl;
+		return 0;
+	}
+
+	std::string sqlS = "select id from ROOMS a WHERE a.ROOM_NAME LIKE \"" + name + "\"";
+	sqlite3_stmt* sth;
+	int res = sqlite3_prepare_v2(m_db, sqlS.c_str(), -1, &sth, 0);
+	if (res != SQLITE_OK)
+	{
+		std::cerr << "Err in getPlayerAverageAnswerTime prepare: " << sqlite3_errmsg(m_db) << std::endl;
+		return -1;
+	}
+
+	res = sqlite3_step(sth);
+	int id = sqlite3_column_int(sth, 0);
+	
+	return id;
+}
+
+
+bool SqliteDataBase::deleteRoom(std::string name)
+{
+	if (!isDB())
+		return false;
+
+	std::stringstream sql;
+	char* errMessage = nullptr;
+	sql << "DELETE FROM ROOMS a WHERE a.ROOM_NAME LIKE\"" + name + "\"";
+
+	int res = sqlite3_exec(m_db, sql.str().c_str(), nullptr, nullptr, &errMessage);
+	if (res != SQLITE_OK)
+	{
+		std::cerr << "Err: " << errMessage << std::endl;
+		return false;
+	}
+	return true;
+}
+
+
 std::list<Question> SqliteDataBase::getQuestions(int dontKnow)
 {
 	std::list<Question> retList;
@@ -329,6 +380,7 @@ bool SqliteDataBase::open()
 		// init database
 		std::string ddl("CREATE TABLE USERS(ID INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL, USERNAME TEXT UNIQUE NOT NULL, PASSWORD TEXT NOT NULL, EMAIL TEXT NULL); \
 						 CREATE TABLE STATISTICS(ID INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL, USER_ID INTEGER NOT NULL, GAME_ID INTEGER NOT NULL, TIME INTEGER NOT NULL, IS_ANS_CORR INTEGER NOT NULL, FOREIGN KEY (USER_ID) REFERENCES USERS(ID)); \
+						 CREATE TABLE ROOMS(ID INTEGER PRIMARY KEY  NOT NULL, ROOM_NAME TEXT) \
 						 CREATE TABLE QUESTIONS(ID INTEGER PRIMARY KEY  NOT NULL, QUESTION TEXT NOT NULL) \
 						 CREATE TABLE ANSWERS(ID INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL, Q_ID INTEGER NOT NULL, CORR_ANS INTEGER NOT NULL, ANSWER TEXT MOT NULL, FOREIGN KEY(Q_ID) REFERENCES QUESTIONS(ID))");
 

@@ -10,6 +10,7 @@ struct RoomData {
 	unsigned int numOfQuestionsInGame;
 	unsigned int timePerQuestion;
 	unsigned int isActive;
+	bool gameover = false;
 } typedef RoomData;
 
 
@@ -22,6 +23,7 @@ public:
 	void removeUser(LoggedUser user);
 	std::vector<std::string> getAllUsers();
 	RoomData getData();
+	void setData(RoomData data) { m_metadata = data; }
 
 private:
 	RoomData m_metadata;

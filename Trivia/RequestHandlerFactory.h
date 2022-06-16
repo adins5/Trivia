@@ -17,9 +17,10 @@ public:
 	LoginRequestHandler* createLoginRequestHandler();
 	MenuRequestHandler* createMenuRequestHandler(LoggedUser user);
 
-	inline LoginManager& getLoginManager() { return m_loginManager; };
-	inline roomManager& getroomManager() { return m_roomManager; };
-	inline StatisticsManager& getStatisticsManager() { return m_statisticsManager; };
+	inline LoginManager& getLoginManager() { return m_loginManager; }
+	inline roomManager& getroomManager() { return m_roomManager; }
+	inline StatisticsManager& getStatisticsManager() { return m_statisticsManager; }
+	inline SqliteDataBase getDatabase() { return (SqliteDataBase*)m_database; }
 
 private:
 	LoginManager m_loginManager;

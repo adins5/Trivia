@@ -13,6 +13,8 @@ public:
 	virtual bool doesUserExists(std::string userName) override;
 	virtual bool doesPasswordMatch(std::string userName, std::string password) override;
 	virtual bool addNewUser(std::string username, std::string password, std::string email) override;
+	virtual int addRoom(std::string name);
+	virtual bool deleteRoom(std::string name);
 
 	virtual std::list<Question> getQuestions(int dontKnow) override;
 	virtual float getPlayerAverageAnswerTime(std::string name) override;
