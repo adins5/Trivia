@@ -87,7 +87,7 @@ namespace Client
     {
         public static string sendRecieve(string jsonStr, int code, Socket _socket)
         {
-            string loginStr = code.ToString() + jsonStr.Length.ToString().PadLeft(4, '0') + jsonStr;
+            string loginStr = code.ToString().PadLeft(2, '0') + jsonStr.Length.ToString().PadLeft(4, '0') + jsonStr;
             _socket.Send(Encoding.ASCII.GetBytes(loginStr));
 
             byte[] recv = new byte[1024];

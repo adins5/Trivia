@@ -4,7 +4,7 @@ using json = nlohmann::json;
 
 LoginRequest* JsonRequestPacketDeserializer::deserializeLoginRequest(std::vector<unsigned char> buffer)
 {
-	std::string msg(buffer.begin() + 5, buffer.end());
+	std::string msg(buffer.begin() + 6, buffer.end());
 	json forStruct = *JsonRequestPacketDeserializer::parseHelp(msg);
 	
 	LoginRequest* req = new LoginRequest;
@@ -16,7 +16,7 @@ LoginRequest* JsonRequestPacketDeserializer::deserializeLoginRequest(std::vector
 
 SignupRequest* JsonRequestPacketDeserializer::deserializeSignupRequest(std::vector<unsigned char> buffer)
 {
-	std::string msg(buffer.begin() + 5, buffer.end());
+	std::string msg(buffer.begin() + 6, buffer.end());
 	json forStruct = *JsonRequestPacketDeserializer::parseHelp(msg);
 
 	SignupRequest* req = new SignupRequest;
@@ -29,7 +29,7 @@ SignupRequest* JsonRequestPacketDeserializer::deserializeSignupRequest(std::vect
 
 GetPlayersInRoomRequest* JsonRequestPacketDeserializer::deserializeGetPlayersInRoomRequest(std::vector<unsigned char> buffer)
 {
-	std::string msg(buffer.begin() + 5, buffer.end());
+	std::string msg(buffer.begin() + 6, buffer.end());
 	json forStruct = *JsonRequestPacketDeserializer::parseHelp(msg);
 
 	GetPlayersInRoomRequest* req = new GetPlayersInRoomRequest;
@@ -40,7 +40,7 @@ GetPlayersInRoomRequest* JsonRequestPacketDeserializer::deserializeGetPlayersInR
 
 JoinRoomRequest* JsonRequestPacketDeserializer::deserializeJoinRoomRequest(std::vector<unsigned char> buffer)
 {
-	std::string msg(buffer.begin() + 5, buffer.end());
+	std::string msg(buffer.begin() + 6, buffer.end());
 	json forStruct = *JsonRequestPacketDeserializer::parseHelp(msg);
 
 	JoinRoomRequest* req = new JoinRoomRequest;
@@ -51,7 +51,7 @@ JoinRoomRequest* JsonRequestPacketDeserializer::deserializeJoinRoomRequest(std::
 
 CreateRoomRequest* JsonRequestPacketDeserializer::deserializeCreateRoomRequest(std::vector<unsigned char> buffer)
 {
-	std::string msg(buffer.begin() + 5, buffer.end());
+	std::string msg(buffer.begin() + 6, buffer.end());
 	json forStruct = *JsonRequestPacketDeserializer::parseHelp(msg);
 
 	CreateRoomRequest* req = new CreateRoomRequest;

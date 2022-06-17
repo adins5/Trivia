@@ -22,10 +22,10 @@ RequestInfo* MessageHandler::recvMsg(SOCKET clientSoc)
 		throw std::exception("Error while sending message to client");
 	}
 
-	msg->id = buff[0] - 48;
 	std::string strMsg(buff);
-	int len = stoi(strMsg.substr(1, 4));
-	msg->buffer = std::vector<unsigned char>(strMsg.begin(), strMsg.begin() + len + 5);
+	msg->id = stoi(strMsg.substr(0,2));
+	int len = stoi(strMsg.substr(2, 4));
+	msg->buffer = std::vector<unsigned char>(strMsg.begin(), strMsg.begin() + len + 6);
 	msg->ctime = time(0);
 
 	return msg;
