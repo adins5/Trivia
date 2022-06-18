@@ -93,8 +93,8 @@ namespace Client
             byte[] recv = new byte[1024];
             _socket.Receive(recv);
             string res = Encoding.ASCII.GetString(recv);
-            res = res.Substring(5, res.Length - 5);
-            int msgLen = Int32.Parse(Encoding.ASCII.GetString(recv).Substring(1, 4));
+            res = res.Substring(6, res.Length - 6);
+            int msgLen = Int32.Parse(Encoding.ASCII.GetString(recv).Substring(2, 4));
 
             return res.Substring(0, msgLen);
         }

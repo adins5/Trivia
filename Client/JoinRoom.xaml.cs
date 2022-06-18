@@ -92,7 +92,13 @@ namespace Client
             string jsonStr = JsonSerializer.Serialize(request);
             string res = Helper.sendRecieve(jsonStr, 8, _socket);
 
-            Room wnd = new Room(_socket, roomName);
+            LoadRoom response = JsonSerializer.Deserialize<LoadRoom>(res)!;
+            if (response.status != 0)
+            {
+                MessageBox.Show("joining room");
+            }
+
+            Room wnd = new Room(_socket, roomName, response.questions);
             Close();
             wnd.ShowDialog();
         }
