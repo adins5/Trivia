@@ -59,18 +59,10 @@ std::string JsonResponsePacketSerializer::serializeResponse(GetPlayersInRoomResp
 	return serializeResponse(response, PLAYERS_IN_ROOM);
 }
 
-void to_json(json& j, const Question& val)
-{
-	j["question"] = val.question;
-	j["answers"] = val.answers;
-	j["corrAnsPos"] = val.corrAnsPos;
-}
-
 std::string JsonResponsePacketSerializer::serializeResponse(JoinRoomResponse res)
 {
 	json response;
 	response["status"] = res.status;
-	response["questions"] = res.questions;
 	return serializeResponse(response, JOIN_ROOM);
 }
 
