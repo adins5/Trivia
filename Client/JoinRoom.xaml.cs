@@ -98,7 +98,7 @@ namespace Client
                 MessageBox.Show("joining room");
             }
 
-            Room wnd = new Room(_socket, roomName, response.questions);
+            Room wnd = new Room(_socket, roomName);
             Close();
             wnd.ShowDialog();
         }

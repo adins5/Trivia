@@ -3,6 +3,7 @@
 #include <vector>
 #include "json.hpp"
 #include "RoomManager.h"
+#include "IDatabase.h"
 using json = nlohmann::json;
 
 #define ERR 0
@@ -38,10 +39,12 @@ struct LogoutResponse {
 
 struct JoinRoomResponse {
 	unsigned int status;
+	std::vector<Question> questions;
 } typedef JoinRoomResponse;
 
 struct CreateRoomResponse {
 	unsigned int status;
+	std::vector<Question> questions;
 } typedef CreateRoomResponse;
 
 struct GetRoomsResponse {

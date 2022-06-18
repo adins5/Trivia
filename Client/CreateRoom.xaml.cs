@@ -18,6 +18,11 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.IO;
 
+public struct LoadRoom
+{
+    public int status { get; set; }
+    public List<Question> questions { get; set; }
+}
 struct CreateRoomRequest
 {
     public string roomName { get; set; }
@@ -53,13 +58,13 @@ namespace Client
             string jsonStr = JsonSerializer.Serialize(request);
             string res = Helper.sendRecieve(jsonStr, 9, _socket);
 
-            Response response = JsonSerializer.Deserialize<Response>(res)!;
+            LoadRoom response = JsonSerializer.Deserialize<LoadRoom>(res)!;
             if (response.status != 0)
             {
                 MessageBox.Show("room created");
             }
 
-            RoomAdmin wnd = new RoomAdmin(_socket, request.roomName, request.maxUsers, request.questionCount, request.answerTimeout);
+            RoomAdmin wnd = new RoomAdmin(_socket, request.roomName, request.maxUsers, request.questionCount, request.answerTimeout, response.questions);
             Close();
             wnd.ShowDialog();
 

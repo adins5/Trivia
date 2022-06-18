@@ -19,6 +19,13 @@ using System.Text.Json.Serialization;
 using System.IO;
 using System.Threading;
 
+public struct Question
+{
+    public string question { get; set; }
+    public string[] answers { get; set; }
+    public int corrAnsPos { get; set; }
+};
+
 struct RoomStateResponse {
     public int status { get; set; }
     public bool hasGameBegun { get; set; }
@@ -37,10 +44,12 @@ namespace Client
     {
         Socket _socket;
         RoomStateResponse jsonRes;
-        public Room(Socket soc, string name)
+        List<Question> _questions;
+        public Room(Socket soc, string name, List<Question> questions)
         {
             InitializeComponent();
             _socket = soc;
+            _questions = questions;
             string res = Helper.sendRecieve("{}", 12, _socket);
             jsonRes = JsonSerializer.Deserialize<RoomStateResponse>(res)!;
 

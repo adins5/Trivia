@@ -29,10 +29,13 @@ namespace Client
     {
         Socket _socket;
         RoomStateResponse jsonRes;
-        public RoomAdmin(Socket soc, string name, int maxUsers, int questionCount, int answerTimeOut)
+        List<Question> _questions;
+
+        public RoomAdmin(Socket soc, string name, int maxUsers, int questionCount, int answerTimeOut, List<Question> questions)
         {
             InitializeComponent();
             _socket = soc;
+            _questions = questions;
 
             string res = Helper.sendRecieve("{}", 12, _socket);
             jsonRes = JsonSerializer.Deserialize<RoomStateResponse>(res)!;
