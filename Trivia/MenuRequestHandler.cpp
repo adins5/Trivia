@@ -163,7 +163,7 @@ RequestResult* MenuRequestHandler::joinRoom(RequestInfo info, SOCKET soc)
 		return ret;
 	}
 
-	ret->newHandler = (IRequestHandler*)m_handelFactory.createMenuRequestHandler(m_user);
+	ret->newHandler = (IRequestHandler*)m_handelFactory.createRoomMemberRequestHandler(m_user, req->roomId);
 	MessageHandler::sendMsg(JsonResponsePacketSerializer::serializeResponse(*res), soc);
 
 	return ret;
@@ -195,7 +195,7 @@ RequestResult* MenuRequestHandler::createRoom(RequestInfo info, SOCKET soc)
 
 	m_roomManager.createRoom(m_user, data);
 	res->status = CREATE_ROOM;
-	ret->newHandler = (IRequestHandler*)m_handelFactory.createMenuRequestHandler(m_user);
+	ret->newHandler = (IRequestHandler*)m_handelFactory.createRoomAdminRequestHandler(m_user, data.id);
 	MessageHandler::sendMsg(JsonResponsePacketSerializer::serializeResponse(*res), soc);
 
 	return ret;

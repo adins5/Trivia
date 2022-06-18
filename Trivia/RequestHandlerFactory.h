@@ -7,6 +7,8 @@
 
 class LoginRequestHandler;
 class MenuRequestHandler;
+class RoomAdminRequestHandler;
+class RoomMemberRequestHandler;
 
 class RequestHandlerFactory
 {
@@ -16,6 +18,8 @@ public:
 
 	LoginRequestHandler* createLoginRequestHandler();
 	MenuRequestHandler* createMenuRequestHandler(LoggedUser user);
+	RoomAdminRequestHandler* createRoomAdminRequestHandler(LoggedUser user, int roomId);
+	RoomMemberRequestHandler* createRoomMemberRequestHandler(LoggedUser user, int roomId);
 
 	inline LoginManager& getLoginManager() { return m_loginManager; }
 	inline roomManager& getroomManager() { return m_roomManager; }
