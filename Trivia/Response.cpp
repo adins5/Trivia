@@ -5,7 +5,7 @@
 
 
 #define MSG_LEN_SIZE 4
-
+#define CODE_LEN_SIZE 2
 
 std::string JsonResponsePacketSerializer::serializeResponse(ErrorResponse res)
 {
@@ -132,7 +132,10 @@ std::string JsonResponsePacketSerializer::serializeResponse(json& response, int 
 	std::stringstream msgLen;
 	msgLen << std::setfill('0') << std::setw(MSG_LEN_SIZE) << len; //
 
-	std::string fullMsg = char(code) + msgLen.str() + jsonString;
+	std::stringstream codeStr;
+	codeStr << std::setfill('0') << std::setw(CODE_LEN_SIZE) << code;
+
+	std::string fullMsg = codeStr.str() + msgLen.str() + jsonString;
 
 	return fullMsg;
 }
