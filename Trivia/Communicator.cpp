@@ -41,7 +41,7 @@ int Communicator::bindAndListen()
 void Communicator::handleNewClient(SOCKET soc)
 {
 	RequestResult* result = nullptr;
-	
+
 	mtx.lock();
     m_clients[soc] = (IRequestHandler*)m_handlerFactory.createLoginRequestHandler();
 	mtx.unlock();
@@ -55,6 +55,12 @@ void Communicator::handleNewClient(SOCKET soc)
 		}
 		catch (const std::exception& e)
 		{
+			closesocket(soc);
+			
+			mtx.lock();
+			m_clients.erase(soc);
+			mtx.unlock();
+			
 			std::cerr << "error reciving message, client disconected" << std::endl;
 			break;
 		}

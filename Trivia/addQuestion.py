@@ -9,15 +9,15 @@ data = requests.get('https://opentdb.com/api.php?amount=' + str(sys.argv[1]) + '
 con = sqlite3.connect('triviaDB.sqlite')
 cur = con.cursor()
 
-# Create table
+roomId = int(sys.argv[2])
 
 # Insert a row of data
 for i in range(1, int(str(sys.argv[1])) + 1):
-    cur.execute("INSERT INTO QUESTIONS (ID, QUESTION) VALUES ({}, \"{}\")".format(i, data['results'][i - 1]['question']))
-    cur.execute("INSERT INTO ANSWERS (Q_ID, CORR_ANS, ANSWER) VALUES ({}, 1, \"{}\")".format(i, data['results'][i - 1]['correct_answer']))
+    cur.execute("INSERT INTO QUESTIONS (ID, ROOM_ID, QUESTION) VALUES ({}, {}, \"{}\")".format(i + roomId * 100, roomId, data['results'][i - 1]['question']))
+    cur.execute("INSERT INTO ANSWERS (Q_ID, CORR_ANS, ANSWER) VALUES ({}, 1, \"{}\")".format(i + roomId * 100, data['results'][i - 1]['correct_answer']))
 
     for j in range(3):
-        cur.execute("INSERT INTO ANSWERS (Q_ID, CORR_ANS, ANSWER) VALUES ({}, 0, \"{}\")".format(i, data['results'][i - 1]['incorrect_answers'][j]))
+        cur.execute("INSERT INTO ANSWERS (Q_ID, CORR_ANS, ANSWER) VALUES ({}, 0, \"{}\")".format(i + roomId * 100, data['results'][i - 1]['incorrect_answers'][j]))
 
 # Save (commit) the changes
 con.commit()

@@ -42,6 +42,7 @@ bool SqliteDataBase::doesUserExists(std::string userName)
 		ret = true;
 
 	sqlite3_finalize(sth);
+	
 	return ret;
 }
 
@@ -123,6 +124,8 @@ int SqliteDataBase::addRoom(std::string name)
 	res2 = sqlite3_step(sth);
 	int id = sqlite3_column_int(sth, 0);
 	
+	sqlite3_finalize(sth);
+
 	return id;
 }
 
@@ -146,15 +149,15 @@ bool SqliteDataBase::deleteRoom(std::string name)
 }
 
 
-std::list<Question> SqliteDataBase::getQuestions(int dontKnow)
+std::list<Question> SqliteDataBase::getQuestions(int roomId)
 {
 	std::list<Question> retList;
 	Question currQue;
 
-	const char* sql = "select b.id, b.question, a.answer, a.corr_ans from answers a inner join questions b on a.q_id=b.id order by a.q_id,a.id";
+	std::string sql = "select b.id, b.question, a.answer, a.corr_ans from answers a inner join questions b on a.q_id=b.id WHERE b.ROOM_ID = " + std::to_string(roomId) + " order by a.q_id, a.id";
 	sqlite3_stmt* sth;
 	
-	int res = sqlite3_prepare_v2(m_db, sql, -1, &sth, 0);
+	int res = sqlite3_prepare_v2(m_db, sql.c_str(), -1, &sth, 0);
 	if (res != SQLITE_OK)
 	{
 		std::cerr << "Err in get questions prepare: " << sqlite3_errmsg(m_db) << std::endl;
@@ -381,7 +384,7 @@ bool SqliteDataBase::open()
 		std::string ddl("CREATE TABLE USERS(ID INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL, USERNAME TEXT UNIQUE NOT NULL, PASSWORD TEXT NOT NULL, EMAIL TEXT NULL); \
 						 CREATE TABLE STATISTICS(ID INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL, USER_ID INTEGER NOT NULL, GAME_ID INTEGER NOT NULL, TIME INTEGER NOT NULL, IS_ANS_CORR INTEGER NOT NULL, FOREIGN KEY (USER_ID) REFERENCES USERS(ID)); \
 						 CREATE TABLE ROOMS(ID INTEGER PRIMARY KEY  NOT NULL, ROOM_NAME TEXT); \
-						 CREATE TABLE QUESTIONS(ID INTEGER PRIMARY KEY  NOT NULL, QUESTION TEXT NOT NULL); \
+						 CREATE TABLE QUESTIONS(ID INTEGER PRIMARY KEY  NOT NULL, ROOM_ID INTEGER NOT NULL, QUESTION TEXT NOT NULL, FOREIGN KEY(ROOM_ID) REFERENCES ROOMS(ID)); \
 						 CREATE TABLE ANSWERS(ID INTEGER PRIMARY KEY  AUTOINCREMENT  NOT NULL, Q_ID INTEGER NOT NULL, CORR_ANS INTEGER NOT NULL, ANSWER TEXT MOT NULL, FOREIGN KEY(Q_ID) REFERENCES QUESTIONS(ID))");
 
 		

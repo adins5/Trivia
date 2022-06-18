@@ -16,7 +16,7 @@ public:
 	virtual int addRoom(std::string name);
 	virtual bool deleteRoom(std::string name);
 
-	virtual std::list<Question> getQuestions(int dontKnow) override;
+	virtual std::list<Question> getQuestions(int roomId) override;
 	virtual float getPlayerAverageAnswerTime(std::string name) override;
 	virtual int getNumOfCorrectAnswer(std::string name) override;
 	virtual int getNumOfTotalAnswers(std::string name) override;

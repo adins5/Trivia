@@ -69,7 +69,8 @@ RequestResult* MenuRequestHandler::signout(RequestInfo info, SOCKET soc)
 	LogoutResponse* res = new LogoutResponse;
 	ret->buffer = info.buffer;
 	res->status = LOGOUT;
-
+	
+	ret->newHandler = (IRequestHandler*)m_handelFactory.createMenuRequestHandler(m_user);
 	MessageHandler::sendMsg(JsonResponsePacketSerializer::serializeResponse(*res), soc);
 
 	return ret;
@@ -85,6 +86,7 @@ RequestResult* MenuRequestHandler::getRooms(RequestInfo info, SOCKET soc)
 	res->rooms = m_roomManager.getRooms();
 	res->status = ROOMS_RESPONSE;
 
+	ret->newHandler = (IRequestHandler*)m_handelFactory.createMenuRequestHandler(m_user);
 	MessageHandler::sendMsg(JsonResponsePacketSerializer::serializeResponse(*res), soc);
 
 	return ret;
@@ -102,6 +104,7 @@ RequestResult* MenuRequestHandler::getPlayersInRoom(RequestInfo info, SOCKET soc
 	Room room = m_roomManager.getRoom(req->roomId);
 	res->players = room.getAllUsers();
 	
+	ret->newHandler = (IRequestHandler*)m_handelFactory.createMenuRequestHandler(m_user);
 	MessageHandler::sendMsg(JsonResponsePacketSerializer::serializeResponse(*res), soc);
 
 	return ret;
@@ -118,6 +121,7 @@ RequestResult* MenuRequestHandler::getPersonalStats(RequestInfo info, SOCKET soc
 	res->statistics = m_statisticsManager.getUserStatistics(m_user.getUsername());
 	res->status = PERSONAL_STATS;
 
+	ret->newHandler = (IRequestHandler*)m_handelFactory.createMenuRequestHandler(m_user);
 	MessageHandler::sendMsg(JsonResponsePacketSerializer::serializeResponse(*res), soc);
 
 	return ret;
@@ -133,6 +137,7 @@ RequestResult* MenuRequestHandler::getHighScore(RequestInfo info, SOCKET soc)
 	res->statistics = m_statisticsManager.getHighScore();
 	res->status = HIGH_SCORE;
 
+	ret->newHandler = (IRequestHandler*)m_handelFactory.createMenuRequestHandler(m_user);
 	MessageHandler::sendMsg(JsonResponsePacketSerializer::serializeResponse(*res), soc);
 
 	return ret;
@@ -158,6 +163,7 @@ RequestResult* MenuRequestHandler::joinRoom(RequestInfo info, SOCKET soc)
 		return ret;
 	}
 
+	ret->newHandler = (IRequestHandler*)m_handelFactory.createMenuRequestHandler(m_user);
 	MessageHandler::sendMsg(JsonResponsePacketSerializer::serializeResponse(*res), soc);
 
 	return ret;
@@ -180,12 +186,16 @@ RequestResult* MenuRequestHandler::createRoom(RequestInfo info, SOCKET soc)
 	data.timePerQuestion = req->answerTimeout;
 	data.isActive = 0;
 	
-	int retur = system("py addQuestion.py " + req->questionCount);
+	std::string systemStr = "py addQuestion.py " + std::to_string(req->questionCount) + " " + std::to_string(data.id);
+	
+	m_handelFactory.getDatabase()->close();
+	int retur = system(systemStr.c_str());
 	std::clog << "python: " << retur << std::endl;;
+	m_handelFactory.getDatabase()->open();
 
 	m_roomManager.createRoom(m_user, data);
 	res->status = CREATE_ROOM;
-	
+	ret->newHandler = (IRequestHandler*)m_handelFactory.createMenuRequestHandler(m_user);
 	MessageHandler::sendMsg(JsonResponsePacketSerializer::serializeResponse(*res), soc);
 
 	return ret;
