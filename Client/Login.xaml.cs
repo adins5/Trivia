@@ -98,6 +98,16 @@ namespace Client
 
             return res.Substring(0, msgLen);
         }
+        public static void updatePlayerList(ListBox list, string[] names)
+        {
+            list.Items.Clear();
+            for (int i = 0; i < names.Length; i++)
+            {
+                TextBlock tb = new TextBlock();
+                tb.Text = names[i];
+                list.Items.Add(tb);
+            }
+        }
     }
 }
 

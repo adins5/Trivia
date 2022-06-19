@@ -125,8 +125,7 @@ namespace Client
         {
             string res = Helper.sendRecieve("{}", 4, _socket);
             RetRooms jsonRes = JsonSerializer.Deserialize<RetRooms>(res)!;
-            //updateRooms(jsonRes.getNames());
-            Dispatcher.BeginInvoke(new Action(() => { updateRooms(jsonRes.getNames()); }));
+            updateRooms(jsonRes.getNames());
             Thread.Sleep(3000);
         }
     }
