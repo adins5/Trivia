@@ -42,6 +42,7 @@ void to_json(json& j, const RoomData& val)
 	j["questionCount"] = val.numOfQuestionsInGame;
 	j["timePerQuestion"] = val.timePerQuestion;
 	j["isActive"] = val.isActive;
+	j["gameover"] = val.gameover;
 }
 
 std::string JsonResponsePacketSerializer::serializeResponse(GetRoomsResponse res)

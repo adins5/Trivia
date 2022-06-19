@@ -29,9 +29,10 @@ struct RoomData
     public int id { get; set; }
     public string name { get; set; }
     public int maxPlayers { get; set; }
-    public int numOfQuestionsInGame { get; set; }
+    public int questionCount { get; set; }
     public int timePerQuestion { get; set; }
     public int isActive { get; set; }
+    public bool gameover { get; set; }
 }
 public class RetRooms
 {
