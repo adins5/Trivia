@@ -18,7 +18,7 @@
         </Grid.RowDefinitions>
         <Label>username:</Label>
         <TextBox Grid.Column="1" Margin="0,0,0,10" x:Name="name" />
-        <Label Grid.Row="1">pasword:</Label>
+        <Label Grid.Row="1">password:</Label>
         <TextBox Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" x:Name="pass" />
 
         <Button Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Click="Login_Click">Log in</Button>

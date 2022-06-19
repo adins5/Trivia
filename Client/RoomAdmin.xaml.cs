@@ -37,7 +37,7 @@ namespace Client
             string res = Helper.sendRecieve("{}", 12, _socket);
             jsonRes = JsonSerializer.Deserialize<RoomStateResponse>(res)!;
 
-            Title.Text += name;
+            Title.Text += ' ' + name;
             MaxUsers.Text += maxUsers;
             QuestionCount.Text += questionCount;
             AnswerTimeout.Text += answerTimeOut;

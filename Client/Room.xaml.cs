@@ -44,7 +44,7 @@ namespace Client
             string res = Helper.sendRecieve("{}", 12, _socket);
             jsonRes = JsonSerializer.Deserialize<RoomStateResponse>(res)!;
 
-            Title.Text += name;
+            Title.Text += ' ' + name;
             AdminName.Text += jsonRes.players[0];
             QuestionCount.Text += jsonRes.questionCount;
             AnswerTimeout.Text += jsonRes.answerTimeOut;
@@ -74,23 +74,17 @@ namespace Client
             while (true)
             {
                 string res = Helper.sendRecieve("{}", 12, _socket);
-                try
+                jsonRes = JsonSerializer.Deserialize<RoomStateResponse>(res)!;
+                if (jsonRes.gameOver)
                 {
-                    Response response = JsonSerializer.Deserialize<Response>(res)!;
-                    if (response.status == 13)
-                    {
-                        MessageBox.Show("room was closed");
-                        Main wnd = new Main(_socket);
-                        Close();
-                        wnd.ShowDialog();
-                    }
+                    Helper.sendRecieve("{}", 13, _socket);
+                    MessageBox.Show("room was closed");
+                    Main wnd = new Main(_socket);
+                    Close();
+                    wnd.ShowDialog();
                 }
-                catch (Exception e)
-                {
-                    jsonRes = JsonSerializer.Deserialize<RoomStateResponse>(res)!;
-                    Helper.updatePlayerList(PlayerList, jsonRes.players);
-                    Thread.Sleep(3000);
-                }
+                Helper.updatePlayerList(PlayerList, jsonRes.players);
+                Thread.Sleep(3000);
             }
         }
     }
