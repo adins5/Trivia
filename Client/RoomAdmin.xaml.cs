@@ -42,7 +42,7 @@ namespace Client
             QuestionCount.Text += questionCount;
             AnswerTimeout.Text += answerTimeOut;
 
-            Helper.updatePlayerList(PlayerList, jsonRes.players);
+            updatePlayerList(jsonRes.players);
 
             Thread thread = new Thread(refreshLoop);
             thread.Start();
@@ -77,8 +77,19 @@ namespace Client
             {
                 string res = Helper.sendRecieve("{}", 12, _socket);
                 jsonRes = JsonSerializer.Deserialize<RoomStateResponse>(res)!;
-                Helper.updatePlayerList(PlayerList, jsonRes.players);
+                //updatePlayerList(jsonRes.players);
+                Dispatcher.BeginInvoke(new Action(() => { updatePlayerList(jsonRes.players); }));
                 Thread.Sleep(3000);
+            }
+        }
+        private void updatePlayerList(string[] names)
+        {
+            PlayerList.Items.Clear();
+            for (int i = 0; i < names.Length; i++)
+            {
+                TextBlock tb = new TextBlock();
+                tb.Text = names[i];
+                PlayerList.Items.Add(tb);
             }
         }
     }
