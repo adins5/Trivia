@@ -66,6 +66,7 @@ namespace Client
     {
         Socket _socket;
         RetRooms jsonRes;
+        bool finish;
         string roomName;
         public JoinRoom(Socket soc)
         {
@@ -79,7 +80,12 @@ namespace Client
             Thread thread = new Thread(RoomLoop);
             thread.Start();
         }
-        
+
+        ~JoinRoom()
+        {
+            finish = false;
+        }
+
         private void Join_Click(object sender, RoutedEventArgs e)
         {
             string roomName = ((ComboBoxItem)RoomList.SelectedItem).ToString();
@@ -123,10 +129,13 @@ namespace Client
 
         private void RoomLoop()
         {
-            string res = Helper.sendRecieve("{}", 4, _socket);
-            RetRooms jsonRes = JsonSerializer.Deserialize<RetRooms>(res)!;
-            updateRooms(jsonRes.getNames());
-            Thread.Sleep(3000);
+            while (this.finish)
+            {
+                string res = Helper.sendRecieve("{}", 4, _socket);
+                RetRooms jsonRes = JsonSerializer.Deserialize<RetRooms>(res)!;
+                updateRooms(jsonRes.getNames());
+                Thread.Sleep(3000);
+            }
         }
     }
 }

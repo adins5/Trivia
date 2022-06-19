@@ -29,6 +29,7 @@ namespace Client
     {
         Socket _socket;
         RoomStateResponse jsonRes;
+        bool finish;
         public RoomAdmin(Socket soc, string name, int maxUsers, int questionCount, int answerTimeOut)
         {
             InitializeComponent();
@@ -41,11 +42,18 @@ namespace Client
             MaxUsers.Text += maxUsers;
             QuestionCount.Text += questionCount;
             AnswerTimeout.Text += answerTimeOut;
+            finish = false;
 
             Helper.updatePlayerList(PlayerList, jsonRes.players);
 
-            Thread thread = new Thread(refreshLoop);
+            Thread thread = new Thread(RefreshLoop);
+
             thread.Start();
+        }
+
+        ~RoomAdmin()
+        {
+            finish = false;
         }
 
         private void Start_Click(object sender, RoutedEventArgs e)
@@ -71,13 +79,15 @@ namespace Client
             wnd.ShowDialog();
 
         }
-        private void refreshLoop()
+        private void RefreshLoop()
         {
-            while (true)
+            while (this.finish)
             {
                 string res = Helper.sendRecieve("{}", 12, _socket);
                 jsonRes = JsonSerializer.Deserialize<RoomStateResponse>(res)!;
+                
                 Helper.updatePlayerList(PlayerList, jsonRes.players);
+           
                 Thread.Sleep(3000);
             }
         }
