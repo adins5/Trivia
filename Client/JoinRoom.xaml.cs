@@ -24,7 +24,7 @@ struct JoinRoomRequest
     public int RoomId;
 }
 
-struct RoomData
+public struct RoomData
 {
     public int id { get; set; }
     public string name { get; set; }
@@ -37,8 +37,7 @@ struct RoomData
 public class RetRooms
 {
     public int status { get; set; }
-    private List<RoomData> rooms { get; set; }
-
+    public List<RoomData> rooms { get; set; }
     public List<string> getNames()
     {
         List<string> names = new List<string>();
@@ -67,12 +66,13 @@ namespace Client
     {
         Socket _socket;
         RetRooms jsonRes;
-        bool finish;
+        bool finish; 
         string roomName;
         public JoinRoom(Socket soc)
         {
             InitializeComponent();
             _socket = soc;
+            //finish = true;
             string res = Helper.sendRecieve("{}", 4, _socket);
             jsonRes = JsonSerializer.Deserialize<RetRooms>(res)!;
 
@@ -89,8 +89,9 @@ namespace Client
 
         private void Join_Click(object sender, RoutedEventArgs e)
         {
-            string roomName = ((ComboBoxItem)RoomList.SelectedItem).ToString();
-
+            string roomName = RoomList.SelectedValue as string;
+            if (roomName == null)
+                return;
             JoinRoomRequest request = new JoinRoomRequest
             {
                 RoomId = jsonRes.getIdForRoom(roomName)
@@ -122,7 +123,7 @@ namespace Client
             foreach (string name in names)
             {
                 TextBlock tb = new TextBlock();
-                tb.Text = name.Split(':')[0];
+                tb.Text = name;
 
                 RoomList.Items.Add(tb);
             }

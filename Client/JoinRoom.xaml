@@ -10,8 +10,9 @@
         <Label >Room Names: (choose one)</Label>
         <ComboBox x:Name="RoomList" HorizontalAlignment="Center" Height="50" Margin="0,50,0,0" ItemsSource="{Binding}">
         </ComboBox>
-            
+
         <Button VerticalAlignment="Bottom" HorizontalAlignment="Right" Click="Cancel_Click" Margin="20" >Cancel</Button>
         <Button VerticalAlignment="Bottom" HorizontalAlignment="Left" Click="Join_Click" Margin="20" >Join Room</Button>
     </Grid>
 </Window>
+    

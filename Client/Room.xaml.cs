@@ -19,7 +19,7 @@ using System.Text.Json.Serialization;
 using System.IO;
 using System.Threading;
 
-struct RoomStateResponse {
+public struct RoomStateResponse {
     public int status { get; set; }
     public bool hasGameBegun { get; set; }
     public string[] players { get; set; }
