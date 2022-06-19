@@ -19,7 +19,7 @@ MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler(LoggedUser u
 
 RoomAdminRequestHandler* RequestHandlerFactory::createRoomAdminRequestHandler(LoggedUser user, int roomId)
 {
-	return new RoomAdminRequestHandler(m_roomManager.getRoom(roomId), user, m_roomManager, *this);
+	return new RoomAdminRequestHandler(m_roomManager.getRoom(roomId), user, m_roomManager, *this)	;
 
 }
 

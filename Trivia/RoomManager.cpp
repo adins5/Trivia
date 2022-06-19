@@ -2,8 +2,8 @@
 
 void roomManager::createRoom(LoggedUser user, RoomData data)
 {
-	Room* room = new Room(data, user);
-	m_rooms.insert(std::pair<int, Room>(roomId, *room));
+	Room newRoom(data, user);
+	m_rooms[data.id] = newRoom;
 	roomId++;
 }
 

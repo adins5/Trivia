@@ -57,7 +57,7 @@ RequestResult* RoomMemberRequestHandler::getRoomState(RequestInfo info, SOCKET s
 	GetRoomStateResponse* res = new GetRoomStateResponse;
 	ret->buffer = info.buffer;
 	res->status = ROOM_STATE;
-	RoomData data = m_roomManager.getRoomState(m_room.getData().id);
+	RoomData data = m_room.getData();
 
 	res->answerTimeOut = data.timePerQuestion;
 	res->questionCount = data.numOfQuestionsInGame;
@@ -65,7 +65,7 @@ RequestResult* RoomMemberRequestHandler::getRoomState(RequestInfo info, SOCKET s
 	res->players = m_room.getAllUsers();
 	res->gameover = data.gameover;
 
-	ret->newHandler = (IRequestHandler*)m_HandlerFactory.createRoomMemberRequestHandler(m_user, m_room.getData().id);
+	ret->newHandler = (IRequestHandler*)m_HandlerFactory.createRoomMemberRequestHandler(m_user, data.id);
 	MessageHandler::sendMsg(JsonResponsePacketSerializer::serializeResponse(*res), soc);
 
 	return ret;

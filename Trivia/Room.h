@@ -19,9 +19,12 @@ class Room
 public:
 	Room() {}
 	Room(RoomData data, LoggedUser user);
+	~Room() { m_users.clear(); }
+
 	int addUser(LoggedUser user);
 	void removeUser(LoggedUser user);
 	std::vector<std::string> getAllUsers();
+	
 	RoomData getData();
 	void setData(RoomData data) { m_metadata = data; }
 
