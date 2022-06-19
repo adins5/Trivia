@@ -31,7 +31,7 @@ private:
 
 	int bindAndListen();
 	void handleNewClient(SOCKET soc);
-
+	void waitforshow();
 public:
 	Communicator(RequestHandlerFactory& handlerFactory);
 	void startHandleRequests();

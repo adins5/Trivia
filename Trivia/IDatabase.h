@@ -16,6 +16,8 @@ class IDatabase
 public:
 	virtual ~IDatabase() = default;
 
+	virtual std::vector<std::string> getUserNames() = 0;
+
 	virtual bool doesUserExists(std::string userName) = 0;
 	virtual bool doesPasswordMatch(std::string userName, std::string password) = 0;
 	virtual bool addNewUser(std::string username, std::string password, std::string email) = 0;

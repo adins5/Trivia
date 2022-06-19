@@ -4,7 +4,6 @@
 
 #include "SqliteDataBase.h"
 
-
 bool SqliteDataBase::isDB()
 {
 	if (!m_db)
@@ -16,6 +15,34 @@ bool SqliteDataBase::isDB()
 	return true;
 }
 
+std::vector<std::string> SqliteDataBase::getUserNames()
+{
+	std::vector<std::string> userNames;
+	std::string name;
+	std::stringstream sql;
+	sql << "SELECT USERNAME FROM USERS;";
+	std::cout << sql.str();
+
+	sqlite3_stmt* sth;
+	char* errMessage = nullptr;
+	int res = sqlite3_prepare_v2(m_db, sql.str().c_str(), -1, &sth, 0);
+	if (res != SQLITE_OK)
+	{
+		std::cerr << "Err: " << sqlite3_errmsg(m_db) << std::endl;
+		return userNames;
+	}
+
+	res = sqlite3_step(sth);
+	while (res == SQLITE_ROW)
+	{
+		name = (const char*)sqlite3_column_text(sth, 0);
+		userNames.push_back(name);
+		res = sqlite3_step(sth);
+	}
+
+	sqlite3_finalize(sth);
+	return userNames;
+}
 
 bool SqliteDataBase::doesUserExists(std::string userName)
 {

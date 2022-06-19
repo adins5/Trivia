@@ -29,3 +29,8 @@ RoomMemberRequestHandler* RequestHandlerFactory::createRoomMemberRequestHandler(
 	return new RoomMemberRequestHandler(m_roomManager.getRoom(roomId), user, m_roomManager, *this);
 
 }
+
+std::vector<std::string> RequestHandlerFactory::UserNames()
+{
+	return m_database->getUserNames();
+}

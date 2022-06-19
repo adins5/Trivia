@@ -21,6 +21,8 @@ public:
 	RoomAdminRequestHandler* createRoomAdminRequestHandler(LoggedUser user, int roomId);
 	RoomMemberRequestHandler* createRoomMemberRequestHandler(LoggedUser user, int roomId);
 
+	std::vector<std::string> UserNames();
+
 	inline LoginManager& getLoginManager() { return m_loginManager; }
 	inline roomManager& getroomManager() { return m_roomManager; }
 	inline StatisticsManager& getStatisticsManager() { return m_statisticsManager; }

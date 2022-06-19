@@ -79,8 +79,25 @@ void Communicator::handleNewClient(SOCKET soc)
 	return;
 }
 
+void Communicator::waitforshow()
+{
+	std::string userInput = "";
+	while (true)
+	{
+		std::getline(std::cin, userInput);
+		if (userInput == "show")
+		{
+			std::cout << "in";
+			m_handlerFactory.UserNames();
+		}
+	}
+}
+
 Communicator::Communicator(RequestHandlerFactory& handlerFactory) : m_handlerFactory(handlerFactory)
 {
+	std::thread T(&Communicator::waitforshow, this);
+	T.detach();
+
 	m_serverSocket = ::socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (m_serverSocket == INVALID_SOCKET)
 		throw std::exception(__FUNCTION__ " - socket");
