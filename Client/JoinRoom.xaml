@@ -1,0 +1,18 @@
+﻿<Window x:Class="Client.JoinRoom"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Client"
+        mc:Ignorable="d"
+        Title="JoinRoom" Height="450" Width="800">
+    <Grid>
+        <Label >Room Names: (choose one)</Label>
+        <ComboBox x:Name="RoomList" HorizontalAlignment="Center" Height="50" Margin="0,50,0,0" ItemsSource="{Binding}">
+        </ComboBox>
+
+        <Button VerticalAlignment="Bottom" HorizontalAlignment="Right" Click="Cancel_Click" Margin="20" >Cancel</Button>
+        <Button VerticalAlignment="Bottom" HorizontalAlignment="Left" Click="Join_Click" Margin="20" >Join Room</Button>
+    </Grid>
+</Window>
+    
